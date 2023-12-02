@@ -102,7 +102,7 @@
 
 **多分类问题的解决**
 
-![隐层的作用](images/feedforward-network-figure16.jpg)
+![隐层的作用](images/feedforward-network-figure17.jpg)
 
 ## 4.2 深度神经网络解决问题案例
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;假设深度学习要处理的信息是“水流”，而处理数据的深度学习网络是一个由管道和阀门组成的巨大水管网络。网络的入口是若干管道开口，网络的出口也是若干管道开口。这个水管网络有许多层，每一层由许多个可以控制水流流向与流量的调节阀。根据不同任务的需要，水管网络的层数、每层的调节阀数量可以有不同的变化组合。对复杂任务来说，调节阀的总数可以成千上万甚至更多。水管网络中，每一层的每个调节阀都通过水管与下一层的所有调节阀连接起来，组成一个从前到后，逐层完全连通的水流系统。<br>
@@ -111,9 +111,40 @@
 
 ![深度神经网络](images/feedforward-network-figure15.jpg)
 
+# 5 深度学习与传统机器学习
+## 5.1 相同点
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在概念、数据准备和预处理方面，两者是很相似的，他们都可能对数据进行一些操作：<br>
+- 数据清洗
+- 数据标签
+- 归一化
+- 去噪
+- 降维
 
+## 5.2 不同点
 
-![BP反向传播](http://galaxy.agh.edu.pl/~vlsi/AI/backp_t_en/backprop.html)
+![深度神经网络](images/feedforward-network-figure18.jpg)
+
+- 传统机器学习的特征提取主要依赖人工，针对特定简单任务的时候人工提取特征会简单有效，但是并不能通用。
+- 深度学习的特征提取并不依靠人工，而是机器自动提取的。这也是为什么大家都说深度学习的可解释性很差，因为有时候深度学习虽然能有好的表现，但是我们并不知道他的原理是什么。
+
+# 6 深度学习的特点
+![深度神经网络](images/feedforward-network-figure19.jpg)
+
+# 7 深度学习的典型算法
+
+![深度神经网络](images/feedforward-network-figure20.jpg)
+
+- **CNN** 能够将大数据量的图片有效的降维成小数据量(并不影响结果)，能够保留图片的特征，类似人类的视觉原理；
+- **RNN** 是一种能有效的处理序列数据的算法。比如：文章内容、语音音频、股票价格走势…；
+- **GAN** 是一种深度学习架构。 该架构训练两个神经网络相互竞争，从而从给定的训练数据集生成更真实的新数据；
+- **强化学习(Reinforcement learning，简称RL)** 强调如何基于环境而行动，以取得最大化的预期利益,强化学习不需要带标签的输入输出对，而是通过自己不停的尝试来学会某些技能。
+
+**注释：2017 年 出现了 Transfomer 模型，取得了重要成功，深度学习的众多项任务都开始应用 Transfomer 算法。**
+
+# 8 参考文献
+- [参考文献1](https://easyai.tech/ai-definition/deep-learning/)
+- [参考文献2](https://www.cnblogs.com/lliuye/p/9183914.html)
+- [BP反向传播](http://galaxy.agh.edu.pl/~vlsi/AI/backp_t_en/backprop.html)
 
 
 
