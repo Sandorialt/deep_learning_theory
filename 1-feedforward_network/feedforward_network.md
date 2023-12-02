@@ -44,6 +44,11 @@
 ![经典激活函数](images/feedforward-network-figure4.jpg)
 
 # 3 从神经元到感知机
+
+**逻辑回归 vs 神经元**
+
+![逻辑回归到神经元](images/feedforward-network-figure21.jpg)
+
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;感知机（perceptron）是由两层神经元组成的结构，输入层用于接受外界输入信号，输出层（也被称为是感知机的功能层）就是M-P神经元，亦称“阈值逻辑单元”（threshold logic unit）。感知机的结构如下：<br>
 
 ![单层感知机](images/feedforward-network-figure5.jpg)
