@@ -58,20 +58,55 @@ if __name__ == '__main__':
 - 激活(activation)
 - 超参
 
-**Q&&A：请分析上图中参数的类别 ？？？**
+**思考：请分析上图中参数的类别 ？？？**
 
 再进一步，按照逻辑先后顺序反向传播算法（BP 算法）可划分为两个阶段：<br>
 - 激励传播(反向传播)
 - 权重更新
 
-**思考1： 反向传播的目的是求 激活的梯度 还是 权重的梯度 ？？？**
-**思考2： 我们需要同时计算出 激活的梯度 和 权重的梯度吗 ？？？**
+**思考： 反向传播的目的是求 激活的梯度 还是 权重的梯度 ？？？** <br>
+**思考： 我们需要同时计算出 激活的梯度 和 权重的梯度吗 ？？？** <br>
 
-# 链式求导法则
+# 4 链式求导法则
 一个深度神经网络可以理解为一个复杂的复合函数：<br>
 $$x = f(w); y = f(x); loss = f(y)$$
 
-当计算 $\frac{\partial z}{\partial w}$ 时就需要用到链式求导。
+当计算 $\frac{\partial z}{\partial w}$ 时就需要用到链式求导, 链式求导有两种情况需要考虑：
 
+- 情况一：无分支 <br>
+![链式求导1](images/back-propagation-figure3.jpg)
+
+- 情况二：存在分支 <br>
+![链式求导2](images/back-propagation-figure4.jpg)
+
+** ===== 有了以上背景知识，我们就可以进行反向传播(back propagation) 的计算了。======
+
+# 5 BP 流程图示
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在前馈神经网络最后，网络的输出信号 y 与目标值(label)进行比较，这个目标值可以在训练数据集中找到。这个差异(difference)被称为输出层神经元的误差信号 $\delta$ 。
+
+![error signal](images/back-propagation-figure5.jpg)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;直接计算内部神经元的误差信号是不可能的，因为这些神经元的输出值是未知的。多层网络的有效训练方法长时间以来一直未知。直到上世纪八十年代中期，反向传播算法才被提出。其思想是将误差信号 d（在单个训练步骤中计算得出）传播回所有输出信号作为该神经元的输入的神经元中。<br>
+
+![error signal propagation](images/back-propagation-figure6.jpg)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用于传播误差的权重系数 $w_{mn}$ 等于计算输出值时使用的权重系数。只是数据流的方向改变了（信号依次从输出传播到输入）。这种技术适用于所有网络层。如果传播的误差来自多个神经元，则进行相加。下面是示例图解：<br>
+
+![error signal propagation](images/back-propagation-figure7.jpg)
+
+当计算完每个神经元的误差信号后，可以修改每个神经元输入节点的权重系数。<br>
+
+- 第一层权重修改：<br>
+![weight update](images/back-propagation-figure8.jpg)
+![weight update](images/back-propagation-figure9.jpg)
+![weight update](images/back-propagation-figure10.jpg)
+
+- 第二层权重修改：<br>
+![weight update](images/back-propagation-figure11.jpg)
+![weight update](images/back-propagation-figure12.jpg)
+
+- 第三层权重修改：<br>
+![weight update](images/back-propagation-figure13.jpg)
 
 
