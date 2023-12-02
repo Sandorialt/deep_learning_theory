@@ -25,10 +25,47 @@
 ## 1.5 前馈神经网络的概念
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;深度前馈网络（deep feedforward network), 也叫作前馈神经网络（feedforward neural network）或者多层感知机（multilayer perceptron, MLP), 是典型的深度学习模型。 <br>
 
+
 # 2 神经元模型
+## 2.1 M-P 神经元
 1943 年，[McCulloch and Pitts, 1943] 将神经元抽象为数学概念上的的简单模型，这就是一直沿用至今的 **M-P 神经元模型：** <br>
 
 ![神经元模型](images/feedforward-network-figure3.jpg)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这个模型中， 神经元接收到来自 $n$ 个其他神经元传递过来的输入信号, 这些输入信号通过带权重的连接(onnection)进行传递，神经元接收到的总输入值(sum)将与神经元的阀值进行比较，然后通过**激活函数(activation function)** 处理以产生神经元的输出。<br>
+
+## 2.2 经典激活函数
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最初的激活函数是下图左所示的阶跃函数，它将输入值映射为输出值 0 或 1, 显然 "1" 对应于神经元兴奋， "0" 对应于神经元抑制. 然而，阶跃函数具有不连续、不光滑等不太好的性质，因此实际常用Sigmoid函数作为激活函数(注释：目前已经有很多更好的激活函数)。 典型的Sigmoid 函数如图下图右所示， 它把可能在较大范围内变化的输入值挤压到(0，1) 输出值范围内，因此有时也称为"挤压函数" (squashing function）。<br>
+
+![经典激活函数](images/feedforward-network-figure4.jpg)
+
+# 3 从神经元到感知机
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;感知机（perceptron）是由两层神经元组成的结构，输入层用于接受外界输入信号，输出层（也被称为是感知机的功能层）就是M-P神经元，亦称“阈值逻辑单元”（threshold logic unit）。感知机的结构如下：<br>
+
+![单层感知机](images/feedforward-network-figure5.jpg)
+
+
+## 3.1 使用感知机解决线性可分问题
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;简单来说，如果可以使用一条线将数据集分为两个类别，则称该问题是线性可分的。比如：在一群猫和狗中，将猫分离出来。而非线性可分问题的数据集包含两种以上的类别，所以需要非线性线将它们分成各自的类别。比如：对手写数字的分类，因为它包含了两种以上的类别，所以要使用非线性线将其分类。<br>
+
+![线性可分问题](images/feedforward-network-figure10.jpg)
+
+![线性可分问题](images/feedforward-network-figure9.jpg)
+
+## 3.1.1 使用感知机解决与(And) 问题
+
+![与问题](images/feedforward-network-figure6.jpg)
+
+## 3.1.2 使用感知机解决或(Or) 问题
+
+![与问题](images/feedforward-network-figure7.jpg)
+
+## 3.1.3 使用感知机解决异非（Not）问题
+
+![非问题](images/feedforward-network-figure8.jpg)
+
+![BP反向传播](http://galaxy.agh.edu.pl/~vlsi/AI/backp_t_en/backprop.html)
+
 
 
 
