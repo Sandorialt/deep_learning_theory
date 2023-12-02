@@ -10,21 +10,18 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;反向传播（英语：Backpropagation，意为**误差**反向传播，缩写为BP）是对多层人工神经网络进行梯度下降的算法，也就是用**链式法则**以网络每层的**权重**为变量计算**损失函数**的梯度，以**更新权重**来最小化损失函数。<br>
 
 ## 1.3 梯度下降算法简述
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;多元函数 f 的梯度定义为：
-$$ gradf=(\frac{\partial f}{\partial x}, \frac{\partial f}{\partial y})=\nabla f $$
+- 多元函数 f 的梯度定义为：<br>
+![梯度公式](images/back-propagation-formula1.jpg)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;梯度有一个非常重要的性质：
-- 函数f沿梯度方向增加（上升）最快, 函数f沿负梯度方向减小（下降）最快。
+- 梯度有一个非常重要的性质：**函数f沿梯度方向增加（上升）最快, 函数f沿负梯度方向减小（下降）最快。**
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;因此，我们可以利用梯度的上述性质推导出梯度下降法用于求解一个函数的极小值, ：<br>
+- 梯度下降法(SGD)算法, ：<br>
 ![梯度下降法](images/back-propagation-figure1.jpg)
 
-**梯度下降法最小化损失函数展示：**
-
+- 梯度下降法效果展示：<br>
 ![梯度下降法](images/back-propagation-gif1.gif)
 
-
-**梯度下降法代码案例**
+- 梯度下降法代码展示：<br>
 ```python
 #coding:utf8
     
