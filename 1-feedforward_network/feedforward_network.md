@@ -116,8 +116,16 @@
 
 ![深度神经网络](images/feedforward-network-figure15.jpg)
 
-# 5 深度学习与传统机器学习
-## 5.1 相同点
+# 5 前馈神经网络计算流程
+![前馈网络计算流程](images/feedforward-network-figure22.jpg)
+
+![前馈网络计算流程](images/feedforward-network-figure23.jpg)
+
+![前馈网络计算流程](images/feedforward-network-figure24.jpg)
+
+
+# 6 深度学习与传统机器学习
+## 6.1 相同点
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在概念、数据准备和预处理方面，两者是很相似的，他们都可能对数据进行一些操作：<br>
 - 数据清洗
 - 数据标签
@@ -125,17 +133,17 @@
 - 去噪
 - 降维
 
-## 5.2 不同点
+## 6.2 不同点
 
 ![深度神经网络](images/feedforward-network-figure18.jpg)
 
 - 传统机器学习的特征提取主要依赖人工，针对特定简单任务的时候人工提取特征会简单有效，但是并不能通用。
 - 深度学习的特征提取并不依靠人工，而是机器自动提取的。这也是为什么大家都说深度学习的可解释性很差，因为有时候深度学习虽然能有好的表现，但是我们并不知道他的原理是什么。
 
-# 6 深度学习的特点
+# 7 深度学习的特点
 ![深度神经网络](images/feedforward-network-figure19.jpg)
 
-# 7 深度学习的典型算法
+# 8 深度学习的典型算法
 
 ![深度神经网络](images/feedforward-network-figure20.jpg)
 
@@ -146,10 +154,10 @@
 
 **注释：2017 年 出现了 Transfomer 模型，取得了重大成功，深度学习的众多项任务都开始应用 Transfomer 算法。**
 
-# 8 参考文献
+# 9 参考文献
 - [参考文献1](https://easyai.tech/ai-definition/deep-learning/)
 - [参考文献2](https://www.cnblogs.com/lliuye/p/9183914.html)
-- [BP反向传播](http://galaxy.agh.edu.pl/~vlsi/AI/backp_t_en/backprop.html)
+- [参考文献3](http://galaxy.agh.edu.pl/~vlsi/AI/backp_t_en/backprop.html)
 
 
 
