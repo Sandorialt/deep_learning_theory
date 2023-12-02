@@ -30,6 +30,10 @@
 ## 2.1 M-P 神经元
 1943 年，[McCulloch and Pitts, 1943] 将神经元抽象为数学概念上的的简单模型，这就是一直沿用至今的 **M-P 神经元模型：** <br>
 
+**生物学中的神经元**
+
+![生物学神经元](images/feedforward-network-figure0.jpg)
+
 ![神经元模型](images/feedforward-network-figure3.jpg)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这个模型中， 神经元接收到来自 $n$ 个其他神经元传递过来的输入信号, 这些输入信号通过带权重的连接(onnection)进行传递，神经元接收到的总输入值(sum)将与神经元的阀值进行比较，然后通过**激活函数(activation function)** 处理以产生神经元的输出。<br>
@@ -47,23 +51,67 @@
 
 ## 3.1 使用感知机解决线性可分问题
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;简单来说，如果可以使用一条线将数据集分为两个类别，则称该问题是线性可分的。比如：在一群猫和狗中，将猫分离出来。而非线性可分问题的数据集包含两种以上的类别，所以需要非线性线将它们分成各自的类别。比如：对手写数字的分类，因为它包含了两种以上的类别，所以要使用非线性线将其分类。<br>
-**线性可分与线性不可分**
+**线性可分与线性不可分** <br>
 ![线性可分问题](images/feedforward-network-figure10.jpg)
 
-**数学模型**
+**数学模型** <br>
 ![线性可分问题](images/feedforward-network-figure9.jpg)
 
-## 3.1.1 使用感知机解决与(And) 问题
+**使用感知机解决与(And) 问题**
 
 ![与问题](images/feedforward-network-figure6.jpg)
 
-## 3.1.2 使用感知机解决或(Or) 问题
+**使用感知机解决或(Or) 问题**
 
 ![与问题](images/feedforward-network-figure7.jpg)
 
-## 3.1.3 使用感知机解决异非（Not）问题
+**使用感知机解决异非（Not）问题**
 
 ![非问题](images/feedforward-network-figure8.jpg)
+
+- 思考：此时 $x_{1}, x_{2}$ 分别是多少呢？
+
+## 3.2 如何解决异或问题 ？？？
+**异或问题如下图所示：**
+
+![异或问题](images/feedforward-network-figure11.jpg)
+
+**解题思路：多次分割解决分线性**
+
+![异或问题解决思路](images/feedforward-network-figure12.jpg)
+
+**多层神经元解决非线性问题**
+
+![多层神经元的感知机](images/feedforward-network-figure13.jpg)
+
+# 4 从感知机到深度神经网络
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我们可以通过在网络中加入一个或多个隐藏层来克服线性模型的限制， 使其能处理更普遍的函数关系类型。 要做到这一点，最简单的方法是将许多全连接层堆叠在一起。 每一层都输出到上面的层，直到生成最后的输出。 我们可以把前L−1层看作表示，把最后一层看作线性预测器。 这种架构通常称为多层感知机（multilayer perceptron），通常缩写为MLP。<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;更一般的，常见的神经网络是形如下图所示的层级结构，每层神经元与下层神经元全互连，神经元之间不存在同层连接，也不存在跨层连接. 这样的神经网络结构通常称为**多层前馈神经网络(multi-layer feedforward neural network）** <br>
+
+习惯上，我们通常将 Layer 大于两层的 MLP 或 MultiLayer feedforward neural network 简称为深度神经网络，其典型结构如下图所示：<br>
+
+![深度神经网络](images/feedforward-network-figure14.jpg)
+
+## 4.1 为何要用深度神经网络？
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;理论和实践都反复证明，随着隐层的增加，模型的表征能力也会增加，可以解决的问题也更加广泛，如下图所示：<br>
+
+![隐层的作用](images/feedforward-network-figure16.jpg)
+
+- 结论：随着隐层层数的增多，凸域将可以形成任意的形状，因此可以解决任何复杂的分类问题。实际上，Kolmogorov理论指出：双隐层感知器就足以解决任何复杂的分类问题。于是我们可以得出这样的结论：**神经网络**通过将线性分类器进行组合叠加，能够较好地进行**非线性分类**。<br>
+
+**多分类问题的解决**
+
+![隐层的作用](images/feedforward-network-figure16.jpg)
+
+## 4.2 深度神经网络解决问题案例
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;假设深度学习要处理的信息是“水流”，而处理数据的深度学习网络是一个由管道和阀门组成的巨大水管网络。网络的入口是若干管道开口，网络的出口也是若干管道开口。这个水管网络有许多层，每一层由许多个可以控制水流流向与流量的调节阀。根据不同任务的需要，水管网络的层数、每层的调节阀数量可以有不同的变化组合。对复杂任务来说，调节阀的总数可以成千上万甚至更多。水管网络中，每一层的每个调节阀都通过水管与下一层的所有调节阀连接起来，组成一个从前到后，逐层完全连通的水流系统。<br>
+
+**案例：深度神经网络识别汉字：** <br>
+
+![深度神经网络](images/feedforward-network-figure15.jpg)
+
+
 
 ![BP反向传播](http://galaxy.agh.edu.pl/~vlsi/AI/backp_t_en/backprop.html)
 
