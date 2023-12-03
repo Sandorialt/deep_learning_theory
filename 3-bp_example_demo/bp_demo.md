@@ -16,12 +16,9 @@
 ![MSELoss](images/bp-example-formula2.jpg)
 
 # 2 前向传播过程(feedforward)
+## 2.1 第一层求解
 ![example case](images/bp-example-figure2.jpg)
 
-- 初始化参数：<br>
-![example case](images/bp-example-figure3.jpg)
-
-## 2.1 第一层求解
 - 线性变换 <br>
 $$net_{h 1}=w_{1} \times l_{1}+w_{2} \times l_{2}+b_{1} * 1$$
 $$net_{h1} = 0.1 \times 5 + 0.15 \times 10 + 0.35 \times 1 = 2.35 $$
@@ -51,13 +48,36 @@ $$out_{o2} = 0.904330$$
 $$E_{total}=E_{o1}+E_{o2}=\frac{1}{2}(0.01-0.891090)^{2}+\frac{1}{2}(0.99-0.904330)^{2}=0.391829$$
 
 # 3 反向传播过程(back propagation)
-## 3.1 误差对 $out_{o1}$ 的梯度计算
+## 3.1 第二层权重梯度求解
+- 以 $w_{7}$ 梯度计算为例：<br>
 ![example case](images/bp-example-figure5.jpg)
 
-- 误差项梯度
+## 3.1.1 计算流程概述
+- 前向过程为：
+$out_{h1}$ --> 线性连接 --> $net_{o1}$ --> 激活 --> $out_{o1}$ --> MSELoss --> $E_{total}$ <br>
+- 反向过程为：
+$$\frac{\partial E_{total}}{\partial w_{7}} = \frac{\partial E_{total}}{\partial out_{o1}} \times \frac{\partial out_{o1}}{\partial net_{o1}} \times \frac{\partial net_{o1}}{\partial w_{7}}$$ 
+$$\frac{\partial E_{total}}{\partial w_{7}} = -(target - out_{o1}) \times out_{o1} \times (1-out_{o1}) \times out_{h1}$$ 
+
+## 3.1.2 具体计算过程
+- 误差对 $out_{o1}$ 的梯度计算
 $$E_{o1}=\frac{1}{2}(target_{o1}-out_{o1})^{2}$$
 $$E_{total}=E_{o1}+E_{o2}$$
 $$\frac{\partial E_{total}}{\partial out_{o1}}=2 \times \frac{1}{2}(target_{o1}-out_{o1})^{2-1} *-1+0=-(0.01-0.891090)=0.88109$$
+
+- 激活函数导数计算
+$$out_{o1}=\frac{1}{1+e^{-net_{o1}}}$$
+$$out_{o1}^{\prime}=\frac{e^{-net}}{(1+e^{-net})^{2}} = \frac{1+e^{-net}-1}{(1+e^{-net})^{2}} = \frac{1}{1+e^{-net}}-\frac{1}{(1+e^{-net})^{2}} = out_{o1}(1-out_{o1})$$
+$$\frac{\partial out_{o1}}{\partial net_{o1}}=out_{o1}(1-out_{o1})=0.891090(0.01-0.891090)=0.097049$$
+
+- 线性项导数计算
+![example case](images/bp-example-figure5.jpg)
+$$net_{o1}=w_{7} \times out_{h1}+w_{9} \times out_{h2}+w_{11} \times out_{h3}+b_{2} * 1$$
+$$\frac{\partial net_{o1}}{\partial w_{7}}=1 \times out_{h1} \times w_{7} + 0 + 0 + 0=0.912934$$
+
+- 链式求导：
+$$\frac{\partial E_{total}}{\partial w_{7}} = 0.88109 * 0.097049 * 0.912934 = 0.078064$$
+
 
 
 
