@@ -121,13 +121,13 @@ $$x = f(w); y = f(x); loss = f(y)$$
 ![linear backward](images/back-propagation-figure16.jpg)
 
 ## 6.4 激活函数 output 的梯度
-- 求解过程
+- 求解过程 <br>
 ![linear backward](images/back-propagation-figure17.jpg)
 
-- 公式化简
+- 公式化简 <br>
 ![linear backward](images/back-propagation-figure18.jpg)
 
-- 最终形式
+- 最终形式 <br>
 ![linear backward](images/back-propagation-figure19.jpg)
 
 ## 6.5 下层激活 input(z' and z'') 梯度求解
