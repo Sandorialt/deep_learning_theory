@@ -138,10 +138,10 @@ $$x = f(w); y = f(x); loss = f(y)$$
 ![linear backward](images/back-propagation-figure21.jpg)
 
 # 7 反向传播总结
-- 所有激活梯度求解
+- 所有激活梯度求解 <br>
 ![linear backward](images/back-propagation-figure22.jpg)
 
-- 所有权重梯度求解
+- 所有权重梯度求解 <br>
 ![linear backward](images/back-propagation-figure23.jpg)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;损失C对W的权重有两部分，一部分是第一项，激活函数Z对W的偏导数（a）, 此项其实就是前向传播，另一个是第二项，C对激活函数Z的偏导数，此项就是反向传播。<br>
