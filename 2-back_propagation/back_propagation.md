@@ -79,10 +79,9 @@ $$x = f(w); y = f(x); loss = f(y)$$
 - 情况二：存在分支 <br>
 ![链式求导2](images/back-propagation-figure4.jpg)
 
-** ===== 有了以上背景知识，我们就可以进行反向传播(back propagation) 的计算了。======
+**===== 有了以上背景知识，我们就可以进行反向传播(back propagation) 的计算了。======**
 
 # 5 BP 流程图示
-
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在前馈神经网络最后，网络的输出信号 y 与目标值(label)进行比较，这个目标值可以在训练数据集中找到。这个差异(difference)被称为输出层神经元的误差信号 $\delta$ 。
 
 ![error signal](images/back-propagation-figure5.jpg)
@@ -109,4 +108,36 @@ $$x = f(w); y = f(x); loss = f(y)$$
 - 第三层权重修改：<br>
 ![weight update](images/back-propagation-figure13.jpg)
 
+**思考：权重的梯度什么时候计算的 ？？**
 
+# 6 反向传播数学推导
+## 6.1 反向传播目的确认
+![bp-target](images/back-propagation-figure14.jpg)
+
+## 6.2 线性连接层 weight 的梯度
+![linear backward](images/back-propagation-figure15.jpg)
+
+## 6.3 激活函数 input 的梯度
+![linear backward](images/back-propagation-figure16.jpg)
+
+## 6.4 激活函数 output 的梯度
+![linear backward](images/back-propagation-figure17.jpg)
+
+**公式化简** <br>
+![linear backward](images/back-propagation-figure18.jpg)
+
+**最终形式**
+![linear backward](images/back-propagation-figure19.jpg)
+
+## 6.5 下层激活 input(z' and z'') 梯度求解
+1. 下层是output的情况：<br>
+![linear backward](images/back-propagation-figure20.jpg)
+
+2. 下层是中间层的情况：<br>
+![linear backward](images/back-propagation-figure21.jpg)
+
+# 7 反向传播总结
+![linear backward](images/back-propagation-figure22.jpg)
+![linear backward](images/back-propagation-figure23.jpg)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;损失C对W的权重有两部分，一部分是第一项，激活函数Z对W的偏导数（a）, 此项其实就是前向传播，另一个是第二项，C对激活函数Z的偏导数，此项就是反向传播。<br>
