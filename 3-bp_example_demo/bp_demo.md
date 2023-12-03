@@ -51,6 +51,16 @@ $$out_{o2} = 0.904330$$
 $$E_{total}=E_{o1}+E_{o2}=\frac{1}{2}(0.01-0.891090)^{2}+\frac{1}{2}(0.99-0.904330)^{2}=0.391829$$
 
 # 3 反向传播过程(back propagation)
+## 3.1 误差对 $out_{o1}$ 的梯度计算
+![example case](images/bp-example-figure5.jpg)
+
+- 误差项梯度
+$$E_{o1}=\frac{1}{2}(target_{o1}-out_{o1})^{2}$$
+$$E_{total}=E_{o1}+E_{o2}$$
+$$\frac{\partial E_{total}}{\partial out_{o1}}=2 \times \frac{1}{2}(target_{o1}-out_{o1})^{2-1} *-1+0=-(0.01-0.891090)=0.88109$$
+
+
+
 
 # 4 权重更新
 
