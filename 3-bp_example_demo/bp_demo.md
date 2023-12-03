@@ -78,7 +78,7 @@ $$\frac{\partial net_{o1}}{\partial w_{7}}=1 \times out_{h1} \times w_{7} + 0 + 
 - 链式求导：
 $$\frac{\partial E_{total}}{\partial w_{7}} = 0.88109 * 0.097049 * 0.912934 = 0.078064$$
 
-- 同理可求得末层其它weight的梯度
+- 同理可求得 $w_{8}、 w_{9}、 w_{10}、 w_{11}、 w_{12}$ 的梯度
 
 
 ## 3.2 前一层权重梯度计算（以 $w_1$ 梯度计算为例）
@@ -94,11 +94,11 @@ $$\frac{\partial E_{o2}}{\partial out_{h1}} = \frac{\partial E_{o2}}{\partial ou
 - 带入数据：
 $$\frac{\partial E_{o1}}{\partial out_{h1}} = -(0.01-0.891090) \times 0.891090 \times (1-0.891090) \times 0.360968=0.030866$$
 
-同理可求的 $\frac{\partial E_{o2}}{\partial out_{h1}}$, 于是可得到：
+- 同理可求的 $\frac{\partial E_{o2}}{\partial out_{h1}}$, 于是可得到：
 
 $$\frac{\partial E_{total}}{\partial w_{1}} = 0.011204$$
 
-- 同理可求得 $w_{2} w_{3}、 w_{4} w_{5} w_{6}$ 的梯度。
+- 同理可求得 $w_{2}、 w_{3}、 w_{4}、 w_{5}、 w_{6}$ 的梯度。
 
 # 4 权重更新
 
