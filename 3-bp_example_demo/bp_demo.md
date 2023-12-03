@@ -9,22 +9,20 @@
 - o1 和 o2 为 outputs
 - o1 的label 为 0.01，o2 的 label 为 0.99
 
-损失函数我们使用MSELoss：
+- 损失函数我们使用MSELoss：
 ![MSELoss](images/bp-example-formula1.jpg)
 
-我们的优化目标为：
+- 我们的优化目标为：
 ![MSELoss](images/bp-example-formula2.jpg)
 
 # 2 前向传播过程(feedforward)
-![example case](images/bp-example-figure1.jpg)
+![example case](images/bp-example-figure2.jpg)
 
 - 初始化参数：<br>
-$$b = (0.35, 0.65)$$
-$$w=(\begin{array}{l} 0.1,0.15,0.2,0.25,0.3,0.35 \\ 0.4,0.45,0.5,0.55,0.6,0.65 \end{array})$$
+![example case](images/bp-example-figure3.jpg)
 
 ## 2.1 第一层求解
 - 线性变换
-
 $$net_{h 1}=w_{1} \times l_{1}+w_{2} \times l_{2}+b_{1} * 1$$
 $$net_{h1} = 0.1 \times 5 + 0.15 \times 10 + 0.35 \times 1 = 2.35 $$
 
@@ -35,9 +33,23 @@ $$out_{h 1}=\frac{1}{1+e^{-net_{h1}}}=\frac{1}{1+e^{-2.35}}=0.912934$$
 同理可得：
 
 $$out_{h2} = 0.979164$$
-
 $$out_{h3} = 0.995275$$
 
+## 2.2 第二层计算
+![example case](images/bp-example-figure2.jpg)
+
+- 线性变换
+$$net_{o1}=w_{7} \times out_{h1} + w_{9} \times out_{h2} + w_{11} \times out_{h3} + b_{2} \times 1$$
+$$net_{o1}=0.4 \times 0.912934+0.5 \times 0.979164+0.6 \times 0.995275=2.1019206$$
+
+- 分析性变换(激活函数)
+$$out_{o1}=\frac{1}{1+e^{-net_{o1}}}=\frac{1}{1+e^{-2.1019206}}=0.891090$$
+
+同理可得：
+$$out_{o2} = 0.904330$$
+
+- 总误差为：
+$$E_{total}=E_{o1}+E_{o2}=\frac{1}{2}(0.01-0.891090)^{2}+\frac{1}{2}(0.99-0.904330)^{2}=0.391829$$
 
 # 3 反向传播过程(back propagation)
 
