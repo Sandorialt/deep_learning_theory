@@ -48,8 +48,9 @@ $$out_{o2} = 0.904330$$
 $$E_{total}=E_{o1}+E_{o2}=\frac{1}{2}(0.01-0.891090)^{2}+\frac{1}{2}(0.99-0.904330)^{2}=0.391829$$
 
 # 3 反向传播过程(back propagation)
-## 3.1 第二层权重梯度求解
+## 3.1 末层权重梯度计算
 - 以 $w_{7}$ 梯度计算为例：<br>
+
 ![example case](images/bp-example-figure5.jpg)
 
 ## 3.1.1 计算流程概述
@@ -71,15 +72,22 @@ $$out_{o1}^{\prime}=\frac{e^{-net}}{(1+e^{-net})^{2}} = \frac{1+e^{-net}-1}{(1+e
 $$\frac{\partial out_{o1}}{\partial net_{o1}}=out_{o1}(1-out_{o1})=0.891090(0.01-0.891090)=0.097049$$
 
 - 线性项导数计算
-![example case](images/bp-example-figure5.jpg)
 $$net_{o1}=w_{7} \times out_{h1}+w_{9} \times out_{h2}+w_{11} \times out_{h3}+b_{2} * 1$$
 $$\frac{\partial net_{o1}}{\partial w_{7}}=1 \times out_{h1} \times w_{7} + 0 + 0 + 0=0.912934$$
 
 - 链式求导：
 $$\frac{\partial E_{total}}{\partial w_{7}} = 0.88109 * 0.097049 * 0.912934 = 0.078064$$
 
+- 同理可求得末层其它weight的梯度
 
 
+## 3.2 前一层权重梯度计算（以 $w_1$ 梯度计算为例）
+![example case](images/bp-example-figure5.jpg)
+
+## 3.2.1 核心公式
+$$\frac{\partial E_{total}}{\partial w_{1}} = \frac{\partial E_{total}}{\partial out_{h1}} \frac{\partial out_{h1}}{\partial net_{h1}} \frac{\partial net_{h1}}{\partial w_{1}} = (\frac{\partial E_{o1}}{\partial out_{h1}} + \frac{\partial E_{o1}}{\partial out_{h1}}) \frac{\partial out_{h1}}{\partial net_{h1}} \frac{\partial net_{h1}}{\partial w_{1}}$$
+
+$$\frac{\partial E_{o1}}{\partial out_{h1}} + \frac{\partial E_{o1}}{\partial out_{h1}} $$
 
 
 # 4 权重更新
