@@ -130,7 +130,7 @@
 ![figure14](images/cnn-figure14.jpg)
 
 - 动态图为：<br>
-![gif5](images/cnn-gif5.gif)
+![gif5](images/cnn-gif6.gif)
 
 # 12 3D 卷积
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3D卷积核有三个维度（高度、宽度、通道），沿着输入图像的 3 个方向进行滑动。<br>
