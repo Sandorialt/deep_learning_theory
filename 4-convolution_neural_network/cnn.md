@@ -1,7 +1,7 @@
 # convolution neural network 
 
 # 1 概念
-- 花书定义：
+- 花书定义：<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卷积网络(convolutional network)，也叫做卷积神经网络(con-volutional neural network, CNN)。是一种专门用来处理具有类似网格结构的数据的神经网络。<br>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**卷积神经网络**一词表明该网络使用了卷积(convolution)这种数学运算。卷积是一种特殊的线性运算。卷积网络是指那些至少在网络的**一层**中使用卷积运算来替代一般的矩阵乘法运算的神经网络。<br>
@@ -132,8 +132,13 @@
 - 动态图为：
 ![gif5](images/cnn-gif5.jpg)
 
+# 12 3D 卷积
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3D卷积核有三个维度（高度、宽度、通道），沿着输入图像的 3 个方向进行滑动。<br>
+![figure15](images/cnn-figure15.jpg)
+
+**思考：工程上3D卷积 input 和weight 分别是 多少维的？？？** <br>
+**思考：1D 卷积的情况呢？**
+
 # 13 参考链接
 [参考文献](https://arxiv.org/pdf/1603.07285.pdf)
 
-
-  
