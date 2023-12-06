@@ -15,30 +15,30 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卷积神经网络的灵感来自于动物视觉皮层组织的神经连接方式。单个神经元只对有限区域内的刺激作出反应，不同神经元的感知区域相互重叠从而覆盖整个视野。<br>
 
 # 2 卷积运算
-- 卷积运算的数学公式如下(习惯上卷积运算常用"*" 号表示)：
+- 卷积运算的数学公式如下(习惯上卷积运算常用"*" 号表示)：<br>
 ![formula1](images/cnn-formula1.jpg)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卷积的第一个参数（在这个例子中，函数x）通常叫做**输入（input）**，第二个参数（函数w）叫做**核函数（kernel function）**。输出有时被称作**特征映射或特征图（feature map）**。<br>
-*(核函数、kernel、滤波器、conv的权重 其实所说的都是 w）*
+*(核函数、kernel、滤波器、conv的权重 其实所说的都是 w）* <br>
 
-- 工程中处理的数据大都是离散的，离散的卷积公式如下：
+- 工程中处理的数据大都是离散的，离散的卷积公式如下：<br>
 ![formula2](images/cnn-formula2.jpg)
 
-- 工程上大多数据都是多维度的，多维离散的卷积公式演变如下：
+- 工程上大多数据都是多维度的，多维离散的卷积公式演变如下：<br>
 ![formula3](images/cnn-formula3.jpg)
 
-- 卷积是可交换的(commutative)，等价变换如下：
+- 卷积是可交换的(commutative)，等价变换如下：<br>
 ![formula4](images/cnn-formula4.jpg)
 
-- 转化为更容易理解的形式（互相关函数形式）：
+- 转化为更容易理解的形式（互相关函数形式）：<br>
 ![formula5](images/cnn-formula5.jpg)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;许多机器学习的库实现的是互相关函数但是称之为卷积，在这本书中我们遵循把两种运算都叫做卷积的这个传统，我们最终工程上使用的就是上式。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;许多机器学习的库实现的是互相关函数但是称之为卷积，在这本书中我们遵循把两种运算都叫做卷积的这个传统，我们最终工程上使用的就是上式。<br>
 
-- 卷积的计算图：
+- 卷积的计算图：<br>
 ![figure1](images/cnn-figure1.jpg)
 
-- 卷积运算动态图：
+- 卷积运算动态图：<br>
 ![gif3](images/cnn-gif3.jpg)
 
 # 3 体会卷积的作用
@@ -55,7 +55,7 @@
 ![figure4](images/cnn-figure4.jpg)
 
 - 等变表示 <br>
-如果一个函数满足输入改变，输出也以同样的方式改变这一性质，我们就说它是等变(equivariant) 的，对于卷积，参数共享的特殊形式使得神经网络层具有对平移等变（equivariance）的性质。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果一个函数满足输入改变，输出也以同样的方式改变这一性质，我们就说它是等变(equivariant) 的，对于卷积，参数共享的特殊形式使得神经网络层具有对平移等变（equivariance）的性质。<br>
 
 **结论：卷积 是 前馈神经网络的一种特例** <br>
 
@@ -63,7 +63,7 @@
 
 **思考：卷积中 input 张量 和 kernel 张量 分别是几维的？** <br>
 - 通道的概念：
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在输入张量中，通道表示不同的特征图（Feature Map），每个特征图对应网络在输入数据中提取的一种特征。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在输入张量中，通道表示不同的特征图（Feature Map），每个特征图对应网络在输入数据中提取的一种特征。<br>
 
 ![gif2](images/cnn-gif2.jpg)
 
@@ -77,10 +77,10 @@
 - 图示卷积是conv2d 还是 conv3d？
 - 图示卷积相对于MLP 是增大了计算量还是减小了计算量？
 
-- padding 图示
+- padding 图示 <br>
 ![gif4](images/cnn-gif4.jpg)
 
-- shape 关系总结如下：
+- shape 关系总结如下： <br>
 ![figure5](images/cnn-figure5.jpg)
 
 # 6 1x1 卷积
@@ -129,7 +129,7 @@
 
 ![figure14](images/cnn-figure14.jpg)
 
-- 动态图为：
+- 动态图为：<br>
 ![gif5](images/cnn-gif5.jpg)
 
 # 12 3D 卷积
