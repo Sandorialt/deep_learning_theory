@@ -2,7 +2,7 @@
 
 # 1 概念
 - 花书定义：<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卷积网络(convolutional network)，也叫做卷积神经网络(con-volutional neural network, CNN)。是一种专门用来处理具有类似网格结构的数据的神经网络。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**卷积网络(convolutional network)** ，也叫做**卷积神经网络(con-volutional neural network, CNN)**。是一种专门用来处理具有类似网格结构的数据的神经网络。<br>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**卷积神经网络**一词表明该网络使用了卷积(convolution)这种数学运算。卷积是一种特殊的线性运算。卷积网络是指那些至少在网络的**一层**中使用卷积运算来替代一般的矩阵乘法运算的神经网络。<br>
 
@@ -39,7 +39,7 @@
 ![figure1](images/cnn-figure1.jpg)
 
 - 卷积运算动态图：<br>
-![gif3](images/cnn-gif3.jpg)
+![gif3](images/cnn-gif3.gif)
 
 # 3 体会卷积的作用
 - 用卷积提取特征：<br>
@@ -65,7 +65,7 @@
 - 通道的概念：
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在输入张量中，通道表示不同的特征图（Feature Map），每个特征图对应网络在输入数据中提取的一种特征。<br>
 
-![gif2](images/cnn-gif2.jpg)
+![gif2](images/cnn-gif2.gif)
 
 - 哪个是输入？其通道数：
 - 哪个是输出？其通道数：
@@ -78,7 +78,7 @@
 - 图示卷积相对于MLP 是增大了计算量还是减小了计算量？
 
 - padding 图示 <br>
-![gif4](images/cnn-gif4.jpg)
+![gif4](images/cnn-gif4.gif)
 
 - shape 关系总结如下： <br>
 ![figure5](images/cnn-figure5.jpg)
@@ -118,7 +118,7 @@
 
 # 10 空洞卷积（膨胀卷积）（Dilated Convolution / Atrous Convolution）
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;为扩大感受野，在卷积核里面的元素之间插入空格来 “膨胀” 内核，形成 “空洞卷积”（或称膨胀卷积），并用膨胀率参数 L 表示要扩大内核的范围，即在内核元素之间插入 L-1 个空格。当 L=1 时，则内核元素之间没有插入空格，变为标准卷积。如下图为膨胀率 L=2 的空洞卷积：<br>
-![gif4](images/cnn-gif5.jpg)
+![gif4](images/cnn-gif5.gif)
 
 - 不同参数L 图如下：<br>
 ![figure13](images/cnn-figure13.jpg)
@@ -130,7 +130,7 @@
 ![figure14](images/cnn-figure14.jpg)
 
 - 动态图为：<br>
-![gif5](images/cnn-gif5.jpg)
+![gif5](images/cnn-gif6.gif)
 
 # 12 3D 卷积
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3D卷积核有三个维度（高度、宽度、通道），沿着输入图像的 3 个方向进行滑动。<br>
