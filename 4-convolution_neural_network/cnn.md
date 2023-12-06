@@ -42,19 +42,19 @@
 ![gif3](images/cnn-gif3.jpg)
 
 # 3 体会卷积的作用
-- 用卷积提取特征：
+- 用卷积提取特征：<br>
 ![figure2](images/cnn-figure2.jpg)
 
 # 4 卷积 和 前馈神经网络的关系
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;传统的神经网络使用矩阵乘法来建立输入与输出的连接关系。其中，参数矩阵中每一个单独的参数都描述了一个输入单元与一个输出单元间的交互。卷积运算通过三个重要的思想来帮助改进机器学习系统： 稀疏交互（sparse interactions）、参数共享（parameter sharing）、等变表示（equivariant representations）。<br>
 
-- 稀疏连接
+- 稀疏连接 <br>
 ![figure3](images/cnn-figure3.jpg)
 
-- 权重共享
+- 权重共享 <br>
 ![figure4](images/cnn-figure4.jpg)
 
-- 等变表示
+- 等变表示 <br>
 如果一个函数满足输入改变，输出也以同样的方式改变这一性质，我们就说它是等变(equivariant) 的，对于卷积，参数共享的特殊形式使得神经网络层具有对平移等变（equivariance）的性质。
 
 **结论：卷积 是 前馈神经网络的一种特例** <br>
