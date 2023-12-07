@@ -22,7 +22,11 @@
 ![gif2](images/rnn-gif3.gif)
 
 ## 3.2 按时间步展开如下：<br>
+**动态图如下**
 ![gif1](images/rnn-gif1.gif)
+
+**静态图如下**
+![figure6](images/rnn-figure6.jpg)
 
 ## 3.3 经典RNN的计算图如下：<br>
 ![figure2](images/rnn-figure2.jpg)
@@ -69,9 +73,23 @@ $$o_{t} = W^{oh}s_{t}$$
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由于 RNN 的短期记忆问题，后来又出现了基于 RNN 的优化算法，LSTM 和 GRU就是典型代表。<br>
 
-# 6 LSTM()
+# 6 LSTM(Long Short-Term Memory) 长短期记忆网络
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;长短期记忆（英语：Long Short-Term Memory，LSTM）是一种时间循环神经网络（RNN），论文首次发表于1997年。由于独特的设计结构，LSTM适合于处理和预测时间序列中间隔和延迟非常长的重要事件。<br>
+
+## 6.1 LSTM 整体结构
+有三个不同的门来调节LSTM单元中的信息流。分别为：遗忘门，输入门和输出门。遗忘门决定了与先前步骤无关的内容。输入门决定从当前步骤开始添加哪些信息。输出门确定下一个隐藏状态的信息。<br>
+
+![figure5](images/rnn-figure5.jpg)
 
 
+
+
+# 10 参考链接
+[参考文献1](http://colah.github.io/posts/2015-08-Understanding-LSTMs/)
+[参考文献2](https://towardsdatascience.com/illustrated-guide-to-lstms-and-gru-s-a-step-by-step-explanation-44e9eb85bf21)
+[参考文献3](https://towardsdatascience.com/animated-rnn-lstm-and-gru-ef124d06cf45)
+![参考文献4](https://www.youtube.com/watch?v=xCGidAeyS4M)
+[参考文献5](https://blog.csdn.net/rongsenmeng2835/article/details/107369507?spm=1001.2014.3001.5502)
 
 
 
