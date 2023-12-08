@@ -1,4 +1,4 @@
-# convolution neural network 
+![image](https://github.com/Elvin-Ma/deep_learning_theory/assets/54735483/2ba1e7a6-547a-4523-a4ce-b5f16b262694)# convolution neural network 
 
 # 1 概念
 - 花书定义：<br>
@@ -132,13 +132,28 @@
 - 动态图为：<br>
 ![gif5](images/cnn-gif6.gif)
 
-# 12 3D 卷积
+# 12 可变形卷积（deformable convolution）
+## 12.1 原理
+- 普通卷积网络kernel大小固定，限制了网络几何变换建模的能力;
+- 可变形卷积在kernel中加入偏移量offset，能够减轻这种限制，偏移通过输入特征卷积得到;
+eg：X.Shape : torch.size([32,64,28,28])   offset.shape : torch.size([32,18,28,28])
+
+## 12.2 过程
+- 计算原理图 <br>
+![figure16](images/cnn-figure16.jpg)
+
+- 卷积过程 <br>
+![figure17](images/cnn-figure17.jpg)
+
+- 整体完善图 <br>
+![figure18](images/cnn-figure18.jpg)
+
+# 13 3D 卷积
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3D卷积核有三个维度（高度、宽度、通道），沿着输入图像的 3 个方向进行滑动。<br>
 ![figure15](images/cnn-figure15.jpg)
 
 **思考：工程上3D卷积 input 和weight 分别是 多少维的？？？** <br>
 **思考：1D 卷积的情况呢？**
 
-# 13 参考链接
+# 14 参考链接
 [参考文献](https://arxiv.org/pdf/1603.07285.pdf)
-
