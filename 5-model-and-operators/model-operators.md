@@ -45,10 +45,45 @@ output = upsample(h, output_size=input.size())
 output.size()
 ```
 
-## 2.2 Normalization
+## 2.2 线性变换层
+### 2.2.1 Linear/Gemm
+![figure9](images/op-figure9.jpg)
+
+[pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.Linear.html#torch.nn.Linear)
+```python
+m = nn.Linear(20, 30)
+input = torch.randn(128, 20)
+output = m(input)
+print(output.size())
+```
+
+### 2.2.2 matmul 相关
+![figure10](images/op-figure10.jpg)
+
+**pytorch中还有三个相似的矩阵操作**
+- matmul是通用的矩阵乘法函数，适用于不同维度的输入。
+- bmm是用于批量矩阵乘法的函数，要求输入为3维张量。
+- mm是用于两个二维矩阵乘法的函数，要求输入为2维张量。
+
+```python
+tensor1 = torch.randn(10, 3, 4)
+tensor2 = torch.randn(10, 4, 5)
+torch.matmul(tensor1, tensor2).size()
+
+mat1 = torch.randn(2, 3)
+mat2 = torch.randn(3, 3)
+torch.mm(mat1, mat2)
+
+input = torch.randn(10, 3, 4)
+mat2 = torch.randn(10, 4, 5)
+res = torch.bmm(input, mat2)
+res.size()
+```
+
+## 2.3 Normalization
 ![figure4](images/op-figure4.jpg)
 
-### 2.2.1 BatchNorm2d
+### 2.3.1 BatchNorm2d
 **示意图**
 ![figure2](images/op-figure2.jpg)
 
@@ -101,7 +136,7 @@ def Batchnorm(x, gamma, beta, bn_param):
 
 - [论文链接](https://arxiv.org/pdf/1502.03167.pdf)
 
-## 2.2.2 LayerNorm
+## 2.3.2 LayerNorm
 - BN不适用于深度不固定的网络（如 RNN 中的sequence长度），而LayerNorm对深度网络的某一层的所有神经元进行标准化操作，非常适合用于序列化输入。<br>
 - LN一般只用于RNN的场景下，在CNN中LN规范化效果不如BN,GN,IN。
 
@@ -142,7 +177,7 @@ def Layernorm(x, gamma, beta):
 
 - [论文链接](https://arxiv.org/pdf/1607.06450v1.pdf)
 
-### 2.2.3 Instance Normalization
+### 2.3.3 Instance Normalization
 - BN注重对每个batch进行归一化，保证数据分布一致，因为判别模型中结果取决于数据整体分布。
 - 但是图像风格化中，生成结果主要依赖于某个图像实例，所以对整个batch归一化不适合图像风格化中，因而对HW做归一化。可以加速模型收敛，并且保持每个图像实例之间的独立。
 
@@ -171,8 +206,9 @@ def Instancenorm(x, gamma, beta):
 ```
 [Instance 论文链接](https://arxiv.org/pdf/1607.08022.pdf)
 
-## 2.2.4 
-- 主要是针对Batch Normalization对小batchsize效果差，GN将channel方向分group，然后每个group内做归一化，算(C//G)*H*W的均值，这样与batchsize无关，不受其约束。<br>
+## 2.3.4  Group Normalization
+**原理** <br>
+主要是针对Batch Normalization对小batchsize效果差，GN将channel方向分group，然后每个group内做归一化，算(C//G)*H*W的均值，这样与batchsize无关，不受其约束。<br>
 
 [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.GroupNorm.html#torch.nn.GroupNorm)
 ```python
@@ -202,7 +238,7 @@ def GroupNorm(x, gamma, beta, G=16):
     return results
 ```
 
-## 2.3 Pooling
+## 2.4 Pooling
 Pooling(池化)是CNN 中常用的操作，通过在特定区域内对特征进行(reduce)来实现的。
 
 **作用**
@@ -212,19 +248,33 @@ Pooling(池化)是CNN 中常用的操作，通过在特定区域内对特征进�
 - 降低模型计算量，降低网络优化难度，防止网络过拟合
 - 使模型对输入图像中的特征位置变化更加鲁棒
 
-### 2.3.1 Max Pooling
-最大池化在每个池化窗口中选择最大的特征值作为输出，提取特征图中响应最强烈的部分进入下一层，这种方式摒弃了网络中大量的冗余信息，使得网络更容易被优化。同时这种操作方式也常常丢失了一些特征图中的细节信息，所以最大池化更多保留些图像的纹理信息。<br>
+### 2.4.1 Max Pooling
+**原理**
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最大池化在每个池化窗口中选择最大的特征值作为输出，提取特征图中响应最强烈的部分进入下一层; <br>
+![figure7](images/op-figure7.jpg)
 
-![figure4](images/op-figure4.jpg)
+![figure7](images/op-figure8.jpg)
 
+**作用**
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这种方式摒弃了网络中大量的冗余信息，使得网络更容易被优化。同时这种操作方式也常常丢失了一些特征图中的细节信息，所以最大池化更多保留些图像的纹理信息。<br>
 
+[pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.MaxPool2d.html#torch.nn.MaxPool2d)
+```python
+import torch.nn as nn
+# pool of square window of size=3, stride=2
+m = nn.MaxPool2d(3, stride=2)
+# pool of non-square window
+m = nn.MaxPool2d((3, 2), stride=(2, 1))
+input = torch.randn(20, 16, 50, 32)
+output = m(input)
+```
 
-
-### 2.3.2 AveragePooling
+### 2.4.2 AveragePooling
 平均池化在每个池化窗口中选择特征值的平均值作为输出，这有助于保留整体特征信息，可以更多的保留图像的背景信息，但可能会丢失一些细节。
 
 [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.AvgPool2d.html#torch.nn.AvgPool2d)
 ```python
+import torch.nn as nn
 # pool of square window of size=3, stride=2
 m = nn.AvgPool2d(3, stride=2)
 # pool of non-square window
@@ -233,7 +283,7 @@ input = torch.randn(20, 16, 50, 32)
 output = m(input)
 ```
 
-### 2.3.3 Global Average Pooling
+### 2.4.3 Global Average Pooling
 ![figure6](images/op-figure6.jpg)
 
 **背景** <br>
@@ -262,7 +312,7 @@ output = m(input)
 ```
 - [avgpool 论文链接](https://arxiv.org/pdf/1312.4400.pdf%20http://arxiv.org/abs/1312.4400.pdf)
 
-# 附录
+# 3 附录
 - [onnx 算子列表](https://github.com/onnx/onnx/blob/main/docs/Operators.md)
 - [pytorch 算子列表](https://pytorch.org/docs/stable/nn.html)
 
