@@ -71,7 +71,7 @@ if __name__ == '__main__':
 一个深度神经网络可以理解为一个复杂的复合函数：<br>
 $$x = f(w); y = f(x); loss = f(y)$$
 
-当计算 $\frac{\partial z}{\partial w}$ 时就需要用到链式求导, 链式求导有两种情况需要考虑：
+当计算 $\frac{\partial loss}{\partial w}$ 时就需要用到链式求导, 链式求导有两种情况需要考虑：
 
 - 情况一：无分支 <br>
 ![链式求导1](images/back-propagation-figure3.jpg)
