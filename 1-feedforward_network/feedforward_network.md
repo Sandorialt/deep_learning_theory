@@ -117,13 +117,13 @@
 ![深度神经网络](images/feedforward-network-figure15.jpg)
 
 # 5 前馈神经网络计算流程
-**第一层计算**
+**第一层计算** <br>
 ![前馈网络计算流程](images/feedforward-network-figure22.jpg)
 
-**第二层计算**
+**第二层计算** <br>
 ![前馈网络计算流程](images/feedforward-network-figure23.jpg)
 
-**第三层计算**
+**第三层计算** <br>
 ![前馈网络计算流程](images/feedforward-network-figure24.jpg)
 
 
