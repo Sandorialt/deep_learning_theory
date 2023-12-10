@@ -362,15 +362,16 @@ output = m(input)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在深度学习发展初期，传统 S 型非线性饱和激活函数 sigmoid 和 tanh 函数得到了广泛的应用。<br>
 
 **数学公式：** <br> 
-$$ sigmoid(x) = \frac{1}{1 + e^{-x}} $$
+
+$$sigmoid(x) = \frac{1}{1 + e^{-x}}$$
 
 $$ tanh(x) = \frac{e^{x} - e^{-x}}{e^{x} + e^{-x}} $$
 
 **对应的导函数：** <br>
 
-$$ \frac{dsigmoid}{dx} = sigmoid(x)(1-sigmoid(x))
+$$\frac{dsigmoid}{dx} = sigmoid(x)(1-sigmoid(x))$$
 
-$$ \frac{dtanh}{dx} = 1 - tanh^{2}
+$$\frac{dtanh}{dx} = 1 - tanh^{2}$$
 
 **函数图如下：** <br>
 ![act-figure1](images/op-activation-figure1.jpg)
