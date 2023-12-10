@@ -1,5 +1,3 @@
-![image](https://github.com/Elvin-Ma/deep_learning_theory/assets/54735483/2ba1e7a6-547a-4523-a4ce-b5f16b262694)# convolution neural network 
-
 # 1 概念
 - 花书定义：<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**卷积网络(convolutional network)** ，也叫做**卷积神经网络(con-volutional neural network, CNN)**。是一种专门用来处理具有类似网格结构的数据的神经网络。<br>
