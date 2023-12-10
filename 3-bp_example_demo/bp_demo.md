@@ -88,7 +88,7 @@ $$\frac{\partial E_{total}}{\partial w_{7}} = 0.88109 * 0.097049 * 0.912934 = 0.
 $$\frac{\partial E_{total}}{\partial w_{1}} = \frac{\partial E_{total}}{\partial out_{h1}} \times \frac{\partial out_{h1}}{\partial net_{h1}} \times \frac{\partial net_{h1}}{\partial w_{1}} = (\frac{\partial E_{o1}}{\partial out_{h1}} + \frac{\partial E_{o1}}{\partial out_{h1}}) \times \frac{\partial out_{h1}}{\partial net_{h1}} \times \frac{\partial net_{h1}}{\partial w_{1}}$$
 
 - 其中：
-$$\frac{\partial E_{o1}}{\partial out_{h1}} = \frac{\partial E_{o1}}{\partial out_{o1}} \times \frac{\partial out_{o1}}{\partial net_{o1}} \times \frac{\partial net_{o1}}{\partial out_{h1}}=-(target_{o1} - out_{o1}) \times out_{o1} \times (1-out_{o1}) \times w_{7}$$ 
+$$\frac{\partial E_{o1}}{\partial out_{h1}} = \frac{\partial E_{o1}}{\partial out_{o1}} \times \frac{\partial out_{o2}}{\partial net_{o1}} \times \frac{\partial net_{o1}}{\partial out_{h1}}=-(target_{o1} - out_{o1}) \times out_{o1} \times (1-out_{o1}) \times w_{7}$$ 
 $$\frac{\partial E_{o2}}{\partial out_{h1}} = \frac{\partial E_{o2}}{\partial out_{o2}} \times \frac{\partial out_{o2}}{\partial net_{o2}} \times \frac{\partial net_{o2}}{\partial out_{h1}}=-(target_{o2} - out_{o2}) \times out_{o2} \times (1-out_{o2}) \times w_{8}$$ 
 
 - 带入数据：
