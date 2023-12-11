@@ -235,7 +235,7 @@ m = nn.GroupNorm(1, 6)
 output = m(input)
 ```
 
-**手动实现**
+**手动实现** <br>
 ```python
 def GroupNorm(x, gamma, beta, G=16):
     # x_shape:[B, C, H, W]
@@ -267,7 +267,7 @@ def GroupNorm(x, gamma, beta, G=16):
 
 ![figure7](images/op-figure8.jpg)
 
-**作用**
+**作用** <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这种方式摒弃了网络中大量的冗余信息，使得网络更容易被优化。同时这种操作方式也常常丢失了一些特征图中的细节信息，所以最大池化更多保留些图像的纹理信息。<br>
 
 [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.MaxPool2d.html#torch.nn.MaxPool2d)
@@ -327,14 +327,14 @@ output = m(input)
 - [GlobalAvgPool 论文链接](https://arxiv.org/pdf/1312.4400.pdf%20http://arxiv.org/abs/1312.4400.pdf)
 
 # 5 Activation
-**线性神经网络的问题**
+**线性神经网络的问题** <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;全连接层或CNN只是对数据做仿射变换（affine transformation), 多个仿射变换叠加仍是一个仿射变换, 即便再添加更多的隐藏层，依然只能与仅含输出层的单层神经网络等价!<br>
 *注释：(仿射变换 :  在几何中, 一个向量空间进行一次线性变换并接上一个平移, 变换为另一个向量空间).* <br>
 
 **解决思路：** <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可以通过引入非线性变换，对线性层的输出用 Pointwise 类型的非线性函数进行变换，然后再作为下一个层的输入 来解决线性网络表达能力不足的问题。这个非线性函数被称为激活函数（activation function）。<br>
 
-**总结：**
+**总结：** <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;激活函数可以看作卷积神经网络模型中一个特殊的层，即非线性映射层。卷积神经网络在进行完线性变换后，都会在后边叠加一个非线性的激活函数，在非线性激活函数的作用下数据分布进行再映射，以增加卷积神经网络的非线性表达能力。<br>
 
 **激活函数应该具有什么样的性质：** <br>
@@ -345,7 +345,7 @@ output = m(input)
 - 单调性（monotonic）：即导数符号不变。当激活函数是单调的时候，单层网络能够保证是凸函数。但是激活函数如 mish 等并不满足单调的条件，因此单调性并不是硬性条件，因为神经网络本来就是非凸的。
 - 参数少：大部分激活函数都是没有参数的。像 PReLU 带单个参数会略微增加网络的大小。
 
-**Zero-centered ???:**
+**Zero-centered ???:** <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zero-centered激活函数指的是在激活函数的输出中心值为零（例如，均值为零）。相比于非零中心的激活函数（例如ReLU），零中心激活函数在某些情况下**可能**具有一些优势，但**并不一定**在所有情况下都表现更好。<br>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以下是一些与零中心激活函数相关的考虑因素：<br>
@@ -405,14 +405,14 @@ output = m(input)
 **背景** <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2010 年，Hinton 首次提出了修正线性单元(rectified linear units，ReLU）作为激活函数。Krizhevsky 等在 2012 年 ImageNet ILSVRC 比赛中使用了激活函数 ReLU。在该比赛中，Krizhevsky等人提出了一种名为AlexNet的深度卷积神经网络架构，该网络结构包含了多个卷积层和全连接层。其中，ReLU被用作卷积层和全连接层之间的激活函数。在图像分类任务上获得了**远远超过**其他参赛者的结果，将错误率降低到了当时的最低水平。这一突破被认为是深度学习在计算机视觉领域的重要里程碑，引发了深度学习在各个领域的广泛应用和发展。<br>
 
-**优势：**
+**优势：** <br>
 1. 不会发生梯度消失问题。Sigmoid函数在  x>0  会发生梯度消失问题，造成信息损失，从而无法完成深度网络的训练。而 ReLU 函数当  x>0  为线性结构，有固定的梯度，不会消失。
 2. ReLU激活函数在  x<0  时会输出为 0 (失活)，这可以造成网络的稀疏性。这样可以很好的模拟人脑神经元工作的原理，且可以减少参数间的相互依赖，缓解了过拟合问题的发生。
 3. Sigmoid函数复杂，计算量大 (前向传播+反向传播求导)，速度慢；而ReLU函数简单，计算量小，速度快。
 
 *(注释：人类大脑神经元大约只有  1 \%-4 \%  是在同一时间工作的。从信号方面来看，即神经元同时只对输入信号的少部分选择性响应，大量信号被刻意的屏蔽了，这样可以提高学习的精度，更好更快地提取稀疏特征。)*
 
-**缺点：**
+**缺点：** <br>
 1. 由于激活函数是没有上界的，有可能出现神经网络输出为  \mathrm{NaN}  的情况
 2. (重要) ReLU在训练的时候很"脆弱"，很可能产生 Dead ReLU Problem（神经元坏死现象）：某些神经元可能永远不会被激活，导致相应参数永远不会被更新（在负数部分，梯度为 0 )。
 *（eg:由于ReLU在  x<0  时梯度为 0 ，这样就导致负的梯度在这个ReLU被置零，而且这个神经元有可能再也不会被任何数据激活。如果这个情况发生了，那么这个神经元之后的梯度就永远是0了，也就是 ReLU神经元坏死了, 不再对任何数据有所响应。)* <br>
@@ -420,7 +420,8 @@ output = m(input)
 4. ReLU的输出不是zero-centered；
 
 **计算公式为：** <br>
-$$ ReLU(x) = max(0, x) $$
+
+$$ReLU(x)=max(0,x)$$
 
 **对应图像和导函数图像为：** <br>
 ![act-figure2](images/op-activation-figure2.jpg)
@@ -440,14 +441,118 @@ output = torch.cat((m(input), m(-input)))
 
 [ReLU 论文链接](https://proceedings.mlr.press/v15/glorot11a/glorot11a.pdf)
 
-## 5.3 ReLU 的变体
+## 5.3 ReLU6 
+**稀疏性再述** <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ReLU 的稀疏性给卷积神经网络的训练带来了巨大的成功。从生物学上看，大脑同时被激活的神经元只有1%～4%，进一步表明神经元工作的稀疏性。神经元只对输入信号的少部分选择性响应，大量信号被刻意的屏蔽。类似神经元信号传播，在一定模型下，ReLU 的稀疏性可以提高学习的精度。然而传统的sigmoid 激活函数几乎同时有一半的神经元被激活，这和神经科学的研究不太相符，可能会给深度网络训练带来潜在的问题。<br>
+
+**稀疏连接图示：** <br>
+![act-figure4](images/op-activation-figure4.jpg)
+
+**ReLU6 概念** <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在深度学习中，有研究者尝试使用ReLU6 激活函数。ReLU6 是在ReLU 激活函数的基础上将大于6 的数据部分置为0，以进一步提高连接的稀疏性。<br>
+
+**ReLU6 公式** <br>
+$$ReLU(x)=min(max(0,x), 6)$$
+
+**ReLU6 图示** <br>
+![act-figure3](images/op-activation-figure3.jpg)
+
+[pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.ReLU6.html#torch.nn.ReLU6)
+```python
+m = nn.ReLU6()
+input = torch.randn(2)
+output = m(input)
+```
+
+## 5.4 其它ReLU 相关 激活函数
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;为了解决Relu 负半轴“神经元坏死”的情况，研究者们对ReLU 的负半轴下功夫改造，提出了LeakyReLU（ leaky rectified linear unit） 、PReLU（ parametric rectified linear unit） 、RReLU（ randomized leaky rectified linear unit）等激活函数。<br>
+
+**对应公式如下** <br>
+![act-formula1](images/op-activation-formula1.jpg)
+
+**图示** <br>
+![act-figure5](images/op-activation-figure5.jpg)
+
+[pytorch Leakey Relu](https://pytorch.org/docs/stable/generated/torch.nn.LeakyReLU.html#torch.nn.LeakyReLU)
+```python
+m = nn.LeakyReLU(0.1)
+input = torch.randn(2)
+output = m(input)
+```
+
+[pytorch PReLU](https://pytorch.org/docs/stable/generated/torch.nn.PReLU.html#torch.nn.PReLU)
+```python
+m = nn.PReLU()
+input = torch.randn(2)
+output = m(input)
+```
+
+[pytorch RReLU](https://pytorch.org/docs/stable/generated/torch.nn.RReLU.html#torch.nn.RReLU)
+```python
+m = nn.RReLU(0.1, 0.3)
+input = torch.randn(2)
+output = m(input)
+```
+[RReLU 论文](https://arxiv.org/pdf/1505.00853.pdf)
+
+## 5.5 ELU(Exponential Linear Units) 和 SELU(Scaled ELU)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELU 激活函数的正半轴与ReLU 激活函数保持一致，对负半轴引入软饱和以代替置“0”。ELU 激活函数在正半轴具有与ReLU 激活函数一样的优势，同时引入了负半轴的定义使得**整体输出均值接近0**。与LeakyReLU 和PReLU 相比，虽同样都是激活了负半轴，但ELU 的负半轴为软饱和区，斜率具有衰减性，这使得其对噪声有一些鲁棒性。同时，参数控制着函数的斜率变化。<br>
+
+**公式如下：** <br>
+![act-formula2](images/op-activation-formula2.jpg)
+
+**图像如下：** <br>
+![act-figure7](images/op-activation-figure7.jpg)
+
+**效果** <br>
+当 $\lambda \approx 1.0507;  \alpha \approx 1.6732$ 时，且weight正态分布时，各层输出近似正态分布，消除梯度消失和爆炸，让结构简单的网络甚至超过sota性能.<br>
+
+[pytorch ELU 实现](https://pytorch.org/docs/stable/generated/torch.nn.ELU.html#torch.nn.ELU)
+```python
+m = nn.ELU()
+input = torch.randn(2)
+output = m(input)
+```
+[ELU 论文](https://arxiv.org/abs/1511.07289)
+
+[pytorch SELU 实现](https://pytorch.org/docs/stable/generated/torch.nn.SELU.html#torch.nn.SELU)
+```python
+m = nn.SELU()
+input = torch.randn(2)
+output = m(input)
+```
+[SELU 论文](https://arxiv.org/abs/1706.02515)
+
+## 5.6 GeLU
+https://www.jiqizhixin.com/articles/2019-12-30-4
+[GeLU 论文链接](https://arxiv.org/pdf/1606.08415.pdf)
+
+## 5.7 Swish、Hardswish、mish
+
+**公式：** <br>
+
+$$Swish(x)=x \cdot sigmoid(\beta x)$$
+
+**图像** <br>
+![act-figure8](images/op-activation-figure8.jpg)
+
+[pytorch Hardswish 实现](https://pytorch.org/docs/stable/generated/torch.nn.Hardswish.html#torch.nn.Hardswish)
+```python
+m = nn.Hardswish()
+input = torch.randn(2)
+output = m(input)
+```
+
+## 5.8 激活函数图像汇总
+[Activation 可视化](https://dashee87.github.io/deep%20learning/visualising-activation-functions-in-neural-networks/)
 
 
-# 3 附录
+# 10 附录
 - [onnx 算子列表](https://github.com/onnx/onnx/blob/main/docs/Operators.md)
 - [pytorch 算子列表](https://pytorch.org/docs/stable/nn.html)
 
-# 4 参考链接
+# 11 参考链接
+- [激活函数汇总](http://spytensor.com/index.php/archives/23/?xqrspi=xnemo1)
 - [激活函数综述](https://www.xhuqk.com/xhdxxbzkb/article/doi/10.12198/j.issn.1673-159X.3761)
 
 
