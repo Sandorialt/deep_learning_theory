@@ -579,7 +579,7 @@ $$Hardswish(x) =x \frac{ReLU6(x+3)}{6}$$
 ![act-figure10](images/op-activation-figure10.jpg)
 
 **swish vs hard swish** <br>
-
+![act-figure12](images/op-activation-figure12.jpg)
 
 [pytorch Hardswish 实现](https://pytorch.org/docs/stable/generated/torch.nn.Hardswish.html#torch.nn.Hardswish)
 ```python
@@ -592,13 +592,56 @@ output = m(input)
 [search activation functions 论文](https://arxiv.org/abs/1710.05941) <br>
 
 ## 5.8 mish 
+**原理** <br>
+对激活函数的研究一直没有停止过，ReLU还是统治着深度学习的激活函数，不过，这种情况有可能会被Mish改变，目前的想法是，平滑的激活函数允许更好的信息深入神经网络，从而得到更好的准确性和泛化, Mish函数在曲线上几乎所有点上的平滑度都很高。<br>
 
+**结论** <br>
+mish 激活函数在最终准确度上比Swish(+.494%)和ReLU(+ 1.671%)都有提高. <br>
 
-# 10 附录
+**公式** <br>
+$$ Mish(x) = x \times tanh(ln(1+e^{x}))$$
+
+**图像** <br>
+![act-figure13](images/op-activation-figure13.jpg)
+
+[Mish pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.Mish.html#torch.nn.Mish)
+```python
+m = nn.Mish()
+input = torch.randn(2)
+output = m(input)
+```
+
+[论文链接](https://arxiv.org/abs/1908.08681)
+
+## 5.9 Softmax
+**思考：与其它激活函数有何不同？？？**
+
+**公式** <br>
+
+$$Softmax(x_{i}) = \frac{\exp (x_{i})}{\sum_{j} \exp (x_{j})}$$
+
+[Softmax pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.Softmax.html#torch.nn.Softmax)
+```python
+m = nn.Softmax(dim=1)
+input = torch.randn(2, 3)
+output = m(input)
+```
+
+# 6 reshape view permute transpose
+
+# 7 pointwise
+
+# 8 embedding
+
+# 9 dropout
+
+# 10 split 和 slice
+
+# 11 附录
 - [onnx 算子列表](https://github.com/onnx/onnx/blob/main/docs/Operators.md) <br>
 - [pytorch 算子列表](https://pytorch.org/docs/stable/nn.html) <br>
 
-# 11 参考链接
+# 12 参考链接
 - [激活函数汇总](http://spytensor.com/index.php/archives/23/?xqrspi=xnemo1) <br>
 - [激活函数综述](https://www.xhuqk.com/xhdxxbzkb/article/doi/10.12198/j.issn.1673-159X.3761) <br>
 - [Activation 可视化](https://dashee87.github.io/deep%20learning/visualising-activation-functions-in-neural-networks/) <br>
