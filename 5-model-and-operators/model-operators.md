@@ -523,18 +523,63 @@ output = m(input)
 ```
 [SELU 论文](https://arxiv.org/abs/1706.02515)
 
-## 5.6 GeLU
-https://www.jiqizhixin.com/articles/2019-12-30-4
+## 5.6 GeLU（Gaussian Error Linear Unit）
+**背景**<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dropout、ReLU 都希望将 **不重要** 的激活信息规整为零，收到这两个函数的影响，学者提出了GELU激活函数。此激活函数的特点是随着 x 的降低，它被归零的概率会升高，而不向relu那样直接置0。
+
+**影响力** <br>
+- 此激活函数早在 2016 年即被人提出，然而其论文迄今为止在 Google Scholar 上的被引用次数却只有 34 次。
+- 其实，GELU 已经被很多目前最为领先的模型所采用。据不完全统计，BERT、RoBERTa、ALBERT 等目前业内顶尖的 NLP 模型都使用了这种激活函数。
+- 另外，在 OpenAI 声名远播的无监督预训练模型 GPT-2 中，研究人员在所有编码器模块中都使用了 GELU 激活函数。
+
+**公式**<br>
+
+$$ GELU(x)= x P(X \leq x) = x \Phi(x)$$
+
+其中：<br>
+![act-formula3](images/op-activation-formula3.jpg)
+
+*注释：这就是高斯误差函数名称的由来** <br>
+
+上式计算量太大，可化简为：
+$$ x \Phi(x) \approx x \sigma(1.702 x) $$
+
+$$ x \Phi(x) \approx \frac{1}{2} \times [1 + tanh (\sqrt{\frac{2}{\pi}}(x+0.044715 x^{3}))]$$
+
+**图像：** <br>
+![act-figure9](images/op-activation-figure9.jpg)
+
+[gelu pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.GELU.html#torch.nn.GELU)
+```python
+m = nn.GELU()
+input = torch.randn(2)
+output = m(input)
+```
+
 [GeLU 论文链接](https://arxiv.org/pdf/1606.08415.pdf)
 
-## 5.7 Swish、Hardswish、mish
+## 5.7 Swish、Hardswish
+**背景** <br>
+2017年 google brain 的研究人员使用自动搜索(automated search)技术寻找更好的激活函数，并提出了一种新的激活函数：Swish。旨在希望可以找到一个最优的激活函数，使得以后不用人为设计激活函数了。
+
+*S 代码 S型神经元，wish就是希望的意思。* <br>
 
 **公式：** <br>
 
 $$Swish(x)=x \cdot sigmoid(\beta x)$$
 
+$$Hardswish(x) =x \frac{ReLU6(x+3)}{6}$$
+
+- 其中β是一个常数或可学习的参数；
+- 当 β = 0 时，Swish函数退化成线性函数 $\frac{x}{2}$;
+- 当 β → ∞ 时，Swish函数退化成ReLU函数；
+- 因此**Swish函数可以看作是线性函数和ReLU函数之间的光滑非线性插值结果**。
+
 **图像** <br>
-![act-figure8](images/op-activation-figure8.jpg)
+![act-figure10](images/op-activation-figure10.jpg)
+
+**swish vs hard swish** <br>
+
 
 [pytorch Hardswish 实现](https://pytorch.org/docs/stable/generated/torch.nn.Hardswish.html#torch.nn.Hardswish)
 ```python
@@ -543,17 +588,19 @@ input = torch.randn(2)
 output = m(input)
 ```
 
-## 5.8 激活函数图像汇总
-[Activation 可视化](https://dashee87.github.io/deep%20learning/visualising-activation-functions-in-neural-networks/)
+[Swish 论文](https://arxiv.org/pdf/1710.05941v1.pdf?source=post_page) <br>
+[search activation functions 论文](https://arxiv.org/abs/1710.05941) <br>
+
+## 5.8 mish 
 
 
 # 10 附录
-- [onnx 算子列表](https://github.com/onnx/onnx/blob/main/docs/Operators.md)
-- [pytorch 算子列表](https://pytorch.org/docs/stable/nn.html)
+- [onnx 算子列表](https://github.com/onnx/onnx/blob/main/docs/Operators.md) <br>
+- [pytorch 算子列表](https://pytorch.org/docs/stable/nn.html) <br>
 
 # 11 参考链接
-- [激活函数汇总](http://spytensor.com/index.php/archives/23/?xqrspi=xnemo1)
-- [激活函数综述](https://www.xhuqk.com/xhdxxbzkb/article/doi/10.12198/j.issn.1673-159X.3761)
-
+- [激活函数汇总](http://spytensor.com/index.php/archives/23/?xqrspi=xnemo1) <br>
+- [激活函数综述](https://www.xhuqk.com/xhdxxbzkb/article/doi/10.12198/j.issn.1673-159X.3761) <br>
+- [Activation 可视化](https://dashee87.github.io/deep%20learning/visualising-activation-functions-in-neural-networks/) <br>
 
   
