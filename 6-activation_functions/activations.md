@@ -113,7 +113,7 @@ output = torch.cat((m(input), m(-input)))
 
 - [ReLU 论文链接](https://proceedings.mlr.press/v15/glorot11a/glorot11a.pdf)
 
-## 3 ReLU6 
+# 3 ReLU6 
 **稀疏性再述** <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ReLU 的稀疏性给卷积神经网络的训练带来了巨大的成功。从生物学上看，大脑同时被激活的神经元只有1%～4%，进一步表明神经元工作的稀疏性。神经元只对输入信号的少部分选择性响应，大量信号被刻意的屏蔽。类似神经元信号传播，在一定模型下，ReLU 的稀疏性可以提高学习的精度。然而传统的sigmoid 激活函数几乎同时有一半的神经元被激活，这和神经科学的研究不太相符，可能会给深度网络训练带来潜在的问题。<br>
 
@@ -136,7 +136,7 @@ input = torch.randn(2)
 output = m(input)
 ```
 
-## 5.4 其它ReLU 相关 激活函数
+# 4 其它ReLU 相关 激活函数
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;为了解决Relu 负半轴“神经元坏死”的情况，研究者们对ReLU 的负半轴下功夫改造，提出了LeakyReLU（ leaky rectified linear unit） 、PReLU（ parametric rectified linear unit） 、RReLU（ randomized leaky rectified linear unit）等激活函数。<br>
 
 **对应公式如下** <br>
@@ -167,7 +167,7 @@ output = m(input)
 ```
 - [RReLU 论文](https://arxiv.org/pdf/1505.00853.pdf)
 
-## 5 ELU(Exponential Linear Units) 和 SELU(Scaled ELU)
+# 5 ELU(Exponential Linear Units) 和 SELU(Scaled ELU)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELU 激活函数的正半轴与ReLU 激活函数保持一致，对负半轴引入软饱和以代替置“0”。ELU 激活函数在正半轴具有与ReLU 激活函数一样的优势，同时引入了负半轴的定义使得**整体输出均值接近0**。与LeakyReLU 和PReLU 相比，虽同样都是激活了负半轴，但ELU 的负半轴为软饱和区，斜率具有衰减性，这使得其对噪声有一些鲁棒性。同时，参数控制着函数的斜率变化。<br>
 
 **公式如下：** <br>
@@ -195,7 +195,7 @@ output = m(input)
 ```
 - [SELU 论文](https://arxiv.org/abs/1706.02515)
 
-## 5.6 GeLU（Gaussian Error Linear Unit）
+# 6 GeLU（Gaussian Error Linear Unit）
 **背景**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dropout、ReLU 都希望将 **不重要** 的激活信息规整为零，收到这两个函数的影响，学者提出了GELU激活函数。此激活函数的特点是随着 x 的降低，它被归零的概率会升高，而不向relu那样直接置0。<br>
 
@@ -231,7 +231,7 @@ output = m(input)
 
 - [GeLU 论文链接](https://arxiv.org/pdf/1606.08415.pdf)
 
-## 5.7 Swish、Hardswish
+# 7 Swish 与 Hardswish
 **背景** <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2017年 google brain 的研究人员使用自动搜索(automated search)技术寻找更好的激活函数，并提出了一种新的激活函数：Swish。旨在希望可以找到一个最优的激活函数，使得以后不用人为设计激活函数了。<br>
 
@@ -264,7 +264,7 @@ output = m(input)
 - [Swish 论文](https://arxiv.org/pdf/1710.05941v1.pdf?source=post_page) <br>
 - [search activation functions 论文](https://arxiv.org/abs/1710.05941) <br>
 
-## 5.8 mish 
+# 8 mish 
 **原理** <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对激活函数的研究一直没有停止过，ReLU还是统治着深度学习的激活函数，不过，这种情况有可能会被Mish改变，目前的想法是，平滑的激活函数允许更好的信息深入神经网络，从而得到更好的准确性和泛化, Mish函数在曲线上几乎所有点上的平滑度都很高。<br>
 
@@ -287,7 +287,7 @@ output = m(input)
 
 - [论文链接](https://arxiv.org/abs/1908.08681)
 
-## 5.9 Softmax
+# 9 Softmax
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;softmax函数用于将一组实数转换为范围在[0, 1]之间且总和为1的概率分布。它常用于多类分类问题中，将原始预测值转换为类别概率。<br>
 
 **思考：与其它激活函数有何不同？？？**
@@ -302,3 +302,8 @@ m = nn.Softmax(dim=1)
 input = torch.randn(2, 3)
 output = m(input)
 ```
+
+# 10 参考链接
+- [激活函数汇总](http://spytensor.com/index.php/archives/23/?xqrspi=xnemo1) <br>
+- [激活函数综述](https://www.xhuqk.com/xhdxxbzkb/article/doi/10.12198/j.issn.1673-159X.3761) <br>
+- [Activation 可视化](https://dashee87.github.io/deep%20learning/visualising-activation-functions-in-neural-networks/) <br>
