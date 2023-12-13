@@ -216,13 +216,13 @@ def Instancenorm(x, gamma, beta):
     results = gamma * x_normalized + beta
     return results
 ```
-[Instance 论文链接](https://arxiv.org/pdf/1607.08022.pdf)
+- [Instance 论文链接](https://arxiv.org/pdf/1607.08022.pdf)
 
 ## 3.4  Group Normalization
 **原理** <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;主要是针对Batch Normalization对小batchsize效果差，GN将channel方向分group，然后每个group内做归一化，算(C//G)*H*W的均值，这样与batchsize无关，不受其约束。<br>
 
-[pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.GroupNorm.html#torch.nn.GroupNorm)
+- [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.GroupNorm.html#torch.nn.GroupNorm)
 ```python
 input = torch.randn(20, 6, 10, 10)
 # Separate 6 channels into 3 groups
@@ -284,7 +284,7 @@ output = m(input)
 ## 4.2 AveragePooling
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;平均池化在每个池化窗口中选择特征值的平均值作为输出，这有助于保留整体特征信息，可以更多的保留图像的背景信息，但可能会丢失一些细节。<br>
 
-[pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.AvgPool2d.html#torch.nn.AvgPool2d)
+- [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.AvgPool2d.html#torch.nn.AvgPool2d)
 ```python
 import torch.nn as nn
 # pool of square window of size=3, stride=2
@@ -345,9 +345,9 @@ torch.reshape(b, (-1,))
 ```
 
 ## 6.2 view
-返回原始数据的不同shape。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;返回原始数据的不同shape。<br>
 
-[pytorch view 实现](https://pytorch.org/docs/stable/generated/torch.Tensor.view.html#torch.Tensor.view)
+- [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.Tensor.view.html#torch.Tensor.view)
 ```python
 x = torch.randn(4, 4)
 x.size()
@@ -366,10 +366,10 @@ torch.equal(b, c)
 ```
 
 ## 6.3 transpose
-交换Tensor的两个轴并返回。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;交换Tensor的两个轴并返回。<br>
 ![figure12](images/op-figure12.jpg)
 
-[pytorch transpose 实现](https://pytorch.org/docs/stable/generated/torch.transpose.html#torch-transpose)
+- [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.transpose.html#torch-transpose)
 ```python
 x = torch.randn(2, 3)
 x
@@ -377,8 +377,8 @@ torch.transpose(x, 0, 1)
 ```
 
 ## 6.4 permute
-tensor 多轴交换。<br>
-[pytorch permute 实现](https://pytorch.org/docs/stable/generated/torch.permute.html#torch-permute)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tensor 多轴交换。<br>
+- [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.permute.html#torch-permute)
 ```python
 x = torch.randn(2, 3, 5)
 x.size()
@@ -386,22 +386,23 @@ torch.permute(x, (2, 0, 1)).size()
 ```
 
 # 7 sequenze 和 unequenze
-压缩维度与解压维度。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;压缩维度与解压维度。<br>
 
 **图像** <br>
 ![figure13](images/op-figure13.jpg)
 
 # 8 concat、stack、expand 和 flatten
 ## 8.1 concat
-在给定的维度上拼接给定的序列张量。所有张量必须具有相同的形状（除了拼接维度），或者为空。是split 的逆运算，是torch.cat的别名。<br>
-[pytorch concat 实现](https://pytorch.org/docs/stable/generated/torch.cat.html#torch.cat)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在给定的维度上拼接给定的序列张量。所有张量必须具有相同的形状（除了拼接维度），或者为空。是split 的逆运算，是torch.cat的别名。<br>
+
+- [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.cat.html#torch.cat)
 ```python
 x = torch.randn(2, 3)
 torch.cat((x, x, x), 0)
 torch.cat((x, x, x), 1)
 ```
 ## 8.2 stack
-在新轴上拼接Tensor。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在新轴上拼接Tensor。
 ```python
 a = torch.randn(2,3)
 b = torch.randn(2,3)
@@ -409,8 +410,9 @@ c= torch.stack([a,b], dim=1)
 ```
 
 ## 8.3 expand
-返回一个self张量的新视图，其中的单例维度被扩展到更大的大小。<br>
-[pytorch expant 实现](https://pytorch.org/docs/stable/generated/torch.Tensor.expand.html)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;返回一个self张量的新视图，其中的单例维度被扩展到更大的大小。<br>
+
+- [pytorch expant 实现](https://pytorch.org/docs/stable/generated/torch.Tensor.expand.html)
 ```python
 x = torch.tensor([[1], [2], [3]])
 x.size()
@@ -420,8 +422,9 @@ x.expand(-1, 4)   # -1 means not changing the size of that dimension
 **思考：expand 后的形状可以随便写吗？需要满足什么规则 ？？？** <br>
 
 ## 8.4 flatten
-通过将输入张量重塑为一维张量来对其进行扁平化。如果传递了start_dim或end_dim，则只有以start_dim开头且以end_dim结尾的维度被扁平化。输入中元素的顺序保持不变。<br>
-[pytorch flatten 实现](https://pytorch.org/docs/stable/generated/torch.flatten.html#torch-flatten)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过将输入张量重塑为一维张量来对其进行扁平化。如果传递了start_dim或end_dim，则只有以start_dim开头且以end_dim结尾的维度被扁平化。输入中元素的顺序保持不变。<br>
+
+- [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.flatten.html#torch-flatten)
 ```python
 t = torch.tensor([[[1, 2],
                    [3, 4]],
@@ -432,9 +435,9 @@ torch.flatten(t, start_dim=1)
 ```
 
 # 9 pointwise
-Tensor 中逐元素进行的操作，也叫element wise 操作，大部分的activation 算子以及 add、sub、mul、div、sqrt 等都属于pointwise 类别。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tensor 中逐元素进行的操作，也叫element wise 操作，大部分的activation 算子以及 add、sub、mul、div、sqrt 等都属于pointwise 类别。<br>
 
-[pytorch 实现](https://pytorch.org/docs/stable/generated/torch.sqrt.html#torch.sqrt)
+- [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.sqrt.html#torch.sqrt)
 ```python
 a = torch.randn(4)
 torch.sqrt(a)
@@ -443,8 +446,8 @@ torch.sqrt(a)
 
 # 10 split 和 slice
 ## 10.1 split
-将张量分割成多个块。每个块都是原始张量的视图。<br>
-[pytorch split 实现](https://pytorch.org/docs/stable/generated/torch.split.html#torch.split)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将张量分割成多个块。每个块都是原始张量的视图。<br>
+- [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.split.html#torch.split)
 
 ```python
 a = torch.arange(10).reshape(5, 2)
@@ -507,8 +510,9 @@ torch.min(a, 1)
 ```
 
 # 12 embedding
-这个模块经常被用来存储单词嵌入，并使用索引来检索它们。该模块的输入是一个索引列表，输出是相应的单词嵌入。<br>
-[pytorch embedding 实现](https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html#torch.nn.Embedding)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个模块经常被用来存储单词嵌入，并使用索引来检索它们。该模块的输入是一个索引列表，输出是相应的单词嵌入。<br>
+
+- [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html#torch.nn.Embedding)
 ```python
 # an Embedding module containing 10 tensors of size 3
 embedding = nn.Embedding(10, 3)
@@ -538,12 +542,12 @@ embedding(input)
 ```
 
 # 13 dropout
-在训练过程中，使用从伯努利分布中采样的样本，以概率p随机将输入张量的某些元素置零。每个通道在每次前向调用时都会独立地被置零。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在训练过程中，使用从伯努利分布中采样的样本，以概率p随机将输入张量的某些元素置零。每个通道在每次前向调用时都会独立地被置零。<br>
 
 **原理图** <br>
 ![figure14](images/op-figure14.jpg)
 
-[pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.Dropout.html#torch.nn.Dropout)
+- [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.Dropout.html#torch.nn.Dropout)
 ```python
 m = nn.Dropout(p=0.2)
 input = torch.randn(20, 16)
@@ -552,7 +556,7 @@ output = m(input)
 
 **思考：训练和推理时这个算子表现有何不同 ？？？*** <br>
 
-[论文链接](https://arxiv.org/abs/1207.0580)
+- [论文链接](https://arxiv.org/abs/1207.0580)
 
 # 14 附录
 - [onnx 算子列表](https://github.com/onnx/onnx/blob/main/docs/Operators.md) <br>
