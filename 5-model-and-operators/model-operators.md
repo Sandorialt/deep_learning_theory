@@ -53,7 +53,7 @@ output.size()
 **图示** <br>
 ![figure9](images/op-figure9.jpg)
 
-[pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.Linear.html#torch.nn.Linear)
+- [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.Linear.html#torch.nn.Linear)
 ```python
 import torch.nn as nn
 m = nn.Linear(20, 30)
@@ -270,7 +270,7 @@ def GroupNorm(x, gamma, beta, G=16):
 **作用** <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这种方式摒弃了网络中大量的冗余信息，使得网络更容易被优化。同时这种操作方式也常常丢失了一些特征图中的细节信息，所以最大池化更多保留些图像的纹理信息。<br>
 
-[pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.MaxPool2d.html#torch.nn.MaxPool2d)
+- [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.MaxPool2d.html#torch.nn.MaxPool2d)
 ```python
 import torch.nn as nn
 # pool of square window of size=3, stride=2
@@ -307,7 +307,7 @@ output = m(input)
 **作用** <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;作为全连接层的替代操作，GAP对整个网络在结构上做正则化防止过拟合，直接剔除了全连接层中黑箱的特征，直接赋予了每个channel实际的类别意义。除此之外，使用GAP代替全连接层，可以实现任意图像大小的输入，而GAP对整个特征图求平均值，也可以用来提取全局上下文信息，全局信息作为指导进一步增强网络性能。<br>
 
-[pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.AdaptiveAvgPool2d.html#torch.nn.AdaptiveAvgPool2d)
+- [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.AdaptiveAvgPool2d.html#torch.nn.AdaptiveAvgPool2d)
 ```python
 import torch
 import torch.nn as nn
@@ -412,7 +412,7 @@ c= torch.stack([a,b], dim=1)
 ## 8.3 expand
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;返回一个self张量的新视图，其中的单例维度被扩展到更大的大小。<br>
 
-- [pytorch expant 实现](https://pytorch.org/docs/stable/generated/torch.Tensor.expand.html)
+- [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.Tensor.expand.html)
 ```python
 x = torch.tensor([[1], [2], [3]])
 x.size()
