@@ -1,4 +1,4 @@
-# 5 Activation
+# 0 Activation 整体介绍
 **线性神经网络的问题** <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;全连接层或CNN只是对数据做仿射变换（affine transformation), 多个仿射变换叠加仍是一个仿射变换, 即便再添加更多的隐藏层，依然只能与仅含输出层的单层神经网络等价!<br>
 *注释：(仿射变换 :  在几何中, 一个向量空间进行一次线性变换并接上一个平移, 变换为另一个向量空间).* <br>
@@ -17,7 +17,7 @@
 - 单调性（monotonic）：即导数符号不变。当激活函数是单调的时候，单层网络能够保证是凸函数。但是激活函数如 mish 等并不满足单调的条件，因此单调性并不是硬性条件，因为神经网络本来就是非凸的。
 - 参数少：大部分激活函数都是没有参数的。像 PReLU 带单个参数会略微增加网络的大小。
 
-**Zero-centered ???:** <br>
+**Zero-centered ???** <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zero-centered激活函数指的是在激活函数的输出中心值为零（例如，均值为零）。相比于非零中心的激活函数（例如ReLU），零中心激活函数在某些情况下**可能**具有一些优势，但**并不一定**在所有情况下都表现更好。<br>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以下是一些与零中心激活函数相关的考虑因素：<br>
@@ -30,7 +30,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;然而，需要注意的是，**并非**所有的任务和网络都能从零中心激活函数中受益。在某些情况下，非零中心的激活函数（如ReLU）可能表现**更好**。例如，ReLU可以**更好地**处理稀疏激活和非线性特征。此外，通过使用批归一化等技术，非零中心激活函数的不足也可以在一定程度上**被缓解**。<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;综上所述，零中心激活函数**并非**在所有情况下都具有更好的性能。选择激活函数时，需要根据具体任务、网络架构和数据特征进行评估和实验，以找到最适合的激活函数。<br>
 
-## 5.1 S 型激活函数
+## 1 S 型激活函数
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在深度学习发展初期，传统 S 型非线性饱和激活函数 sigmoid 和 tanh 函数得到了广泛的应用。<br>
 
 **数学公式：** <br> 
@@ -55,7 +55,7 @@ $$\frac{dtanh}{dx} = 1 - tanh^{2}$$
 - 由上图左右对比可知：tanh 激活函数解决了 sigmoid 激活函数非 0 均值的问题，且其导数范围为（0，1），从而略微缓减了sigmoid 激活函数梯度弥散的问题；
 - 但 tanh 激活函数存在的双向饱和性仍然使得梯度弥散问题存在，且模型训练的时间复杂度较高。
 
-[pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.Sigmoid.html#torch.nn.Sigmoid)
+- [pytorch sigmoid 实现](https://pytorch.org/docs/stable/generated/torch.nn.Sigmoid.html#torch.nn.Sigmoid)
 ```python
 import torch.nn as nn
 m = nn.Sigmoid()
@@ -63,14 +63,14 @@ input = torch.randn(2)
 output = m(input)
 ```
 
-[tanh pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.Tanh.html#torch.nn.Tanh)
+- [pytorch tanh 实现](https://pytorch.org/docs/stable/generated/torch.nn.Tanh.html#torch.nn.Tanh)
 ```python
 m = nn.Tanh()
 input = torch.randn(2)
 output = m(input)
 ```
 
-## 5.2 Relu 激活函数
+## 2 Relu 激活函数
 **概念：** <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;整流线性单位函数（Rectified Linear Unit, ReLU），又称修正线性单元，是一种人工神经网络中常用的激励函数（activation function），通常指代以斜坡函数及其变种为代表的非线性函数。<br>
 
@@ -98,7 +98,7 @@ $$ReLU(x)=max(0,x)$$
 **对应图像和导函数图像为：** <br>
 ![act-figure2](images/op-activation-figure2.jpg)
 
-[pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.ReLU.html#torch.nn.ReLU)
+- [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.ReLU.html#torch.nn.ReLU)
 ```python
 m = nn.ReLU()
 input = torch.randn(2)
@@ -111,9 +111,9 @@ input = torch.randn(2).unsqueeze(0)
 output = torch.cat((m(input), m(-input)))
 ```
 
-[ReLU 论文链接](https://proceedings.mlr.press/v15/glorot11a/glorot11a.pdf)
+- [ReLU 论文链接](https://proceedings.mlr.press/v15/glorot11a/glorot11a.pdf)
 
-## 5.3 ReLU6 
+## 3 ReLU6 
 **稀疏性再述** <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ReLU 的稀疏性给卷积神经网络的训练带来了巨大的成功。从生物学上看，大脑同时被激活的神经元只有1%～4%，进一步表明神经元工作的稀疏性。神经元只对输入信号的少部分选择性响应，大量信号被刻意的屏蔽。类似神经元信号传播，在一定模型下，ReLU 的稀疏性可以提高学习的精度。然而传统的sigmoid 激活函数几乎同时有一半的神经元被激活，这和神经科学的研究不太相符，可能会给深度网络训练带来潜在的问题。<br>
 
@@ -145,29 +145,29 @@ output = m(input)
 **图示** <br>
 ![act-figure5](images/op-activation-figure5.jpg)
 
-[pytorch Leakey Relu](https://pytorch.org/docs/stable/generated/torch.nn.LeakyReLU.html#torch.nn.LeakyReLU)
+- [pytorch LeakeyRelu 实现](https://pytorch.org/docs/stable/generated/torch.nn.LeakyReLU.html#torch.nn.LeakyReLU)
 ```python
 m = nn.LeakyReLU(0.1)
 input = torch.randn(2)
 output = m(input)
 ```
 
-[pytorch PReLU](https://pytorch.org/docs/stable/generated/torch.nn.PReLU.html#torch.nn.PReLU)
+- [pytorch PReLU 实现](https://pytorch.org/docs/stable/generated/torch.nn.PReLU.html#torch.nn.PReLU)
 ```python
 m = nn.PReLU()
 input = torch.randn(2)
 output = m(input)
 ```
 
-[pytorch RReLU](https://pytorch.org/docs/stable/generated/torch.nn.RReLU.html#torch.nn.RReLU)
+- [pytorch RReLU 实现](https://pytorch.org/docs/stable/generated/torch.nn.RReLU.html#torch.nn.RReLU)
 ```python
 m = nn.RReLU(0.1, 0.3)
 input = torch.randn(2)
 output = m(input)
 ```
-[RReLU 论文](https://arxiv.org/pdf/1505.00853.pdf)
+- [RReLU 论文](https://arxiv.org/pdf/1505.00853.pdf)
 
-## 5.5 ELU(Exponential Linear Units) 和 SELU(Scaled ELU)
+## 5 ELU(Exponential Linear Units) 和 SELU(Scaled ELU)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELU 激活函数的正半轴与ReLU 激活函数保持一致，对负半轴引入软饱和以代替置“0”。ELU 激活函数在正半轴具有与ReLU 激活函数一样的优势，同时引入了负半轴的定义使得**整体输出均值接近0**。与LeakyReLU 和PReLU 相比，虽同样都是激活了负半轴，但ELU 的负半轴为软饱和区，斜率具有衰减性，这使得其对噪声有一些鲁棒性。同时，参数控制着函数的斜率变化。<br>
 
 **公式如下：** <br>
@@ -179,25 +179,25 @@ output = m(input)
 **效果** <br>
 当 $\lambda \approx 1.0507;  \alpha \approx 1.6732$ 时，且weight正态分布时，各层输出近似正态分布，消除梯度消失和爆炸，让结构简单的网络甚至超过sota性能.<br>
 
-[pytorch ELU 实现](https://pytorch.org/docs/stable/generated/torch.nn.ELU.html#torch.nn.ELU)
+- [pytorch ELU 实现](https://pytorch.org/docs/stable/generated/torch.nn.ELU.html#torch.nn.ELU)
 ```python
 m = nn.ELU()
 input = torch.randn(2)
 output = m(input)
 ```
-[ELU 论文](https://arxiv.org/abs/1511.07289)
+- [ELU 论文](https://arxiv.org/abs/1511.07289)
 
-[pytorch SELU 实现](https://pytorch.org/docs/stable/generated/torch.nn.SELU.html#torch.nn.SELU)
+- [pytorch SELU 实现](https://pytorch.org/docs/stable/generated/torch.nn.SELU.html#torch.nn.SELU)
 ```python
 m = nn.SELU()
 input = torch.randn(2)
 output = m(input)
 ```
-[SELU 论文](https://arxiv.org/abs/1706.02515)
+- [SELU 论文](https://arxiv.org/abs/1706.02515)
 
 ## 5.6 GeLU（Gaussian Error Linear Unit）
 **背景**<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dropout、ReLU 都希望将 **不重要** 的激活信息规整为零，收到这两个函数的影响，学者提出了GELU激活函数。此激活函数的特点是随着 x 的降低，它被归零的概率会升高，而不向relu那样直接置0。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dropout、ReLU 都希望将 **不重要** 的激活信息规整为零，收到这两个函数的影响，学者提出了GELU激活函数。此激活函数的特点是随着 x 的降低，它被归零的概率会升高，而不向relu那样直接置0。<br>
 
 **影响力** <br>
 - 此激活函数早在 2016 年即被人提出，然而其论文迄今为止在 Google Scholar 上的被引用次数却只有 34 次。
@@ -206,14 +206,15 @@ output = m(input)
 
 **公式**<br>
 
-$$ GELU(x)= x P(X \leq x) = x \Phi(x)$$
+$$GELU(x)= x P(X \leq x) = x \Phi(x)$$
 
 其中：<br>
 ![act-formula3](images/op-activation-formula3.jpg)
 
 *注释：这就是高斯误差函数名称的由来** <br>
 
-上式计算量太大，可化简为：
+上式计算量太大，可化简为：<br>
+
 $$ x \Phi(x) \approx x \sigma(1.702 x) $$
 
 $$ x \Phi(x) \approx \frac{1}{2} \times [1 + tanh (\sqrt{\frac{2}{\pi}}(x+0.044715 x^{3}))]$$
@@ -228,13 +229,13 @@ input = torch.randn(2)
 output = m(input)
 ```
 
-[GeLU 论文链接](https://arxiv.org/pdf/1606.08415.pdf)
+- [GeLU 论文链接](https://arxiv.org/pdf/1606.08415.pdf)
 
 ## 5.7 Swish、Hardswish
 **背景** <br>
-2017年 google brain 的研究人员使用自动搜索(automated search)技术寻找更好的激活函数，并提出了一种新的激活函数：Swish。旨在希望可以找到一个最优的激活函数，使得以后不用人为设计激活函数了。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2017年 google brain 的研究人员使用自动搜索(automated search)技术寻找更好的激活函数，并提出了一种新的激活函数：Swish。旨在希望可以找到一个最优的激活函数，使得以后不用人为设计激活函数了。<br>
 
-*S 代码 S型神经元，wish就是希望的意思。* <br>
+*注释：S 代表 S型神经元，wish就是希望的意思。* <br>
 
 **公式：** <br>
 
@@ -253,46 +254,49 @@ $$Hardswish(x) =x \frac{ReLU6(x+3)}{6}$$
 **swish vs hard swish** <br>
 ![act-figure12](images/op-activation-figure12.jpg)
 
-[pytorch Hardswish 实现](https://pytorch.org/docs/stable/generated/torch.nn.Hardswish.html#torch.nn.Hardswish)
+- [pytorch Hardswish 实现](https://pytorch.org/docs/stable/generated/torch.nn.Hardswish.html#torch.nn.Hardswish)
 ```python
 m = nn.Hardswish()
 input = torch.randn(2)
 output = m(input)
 ```
 
-[Swish 论文](https://arxiv.org/pdf/1710.05941v1.pdf?source=post_page) <br>
-[search activation functions 论文](https://arxiv.org/abs/1710.05941) <br>
+- [Swish 论文](https://arxiv.org/pdf/1710.05941v1.pdf?source=post_page) <br>
+- [search activation functions 论文](https://arxiv.org/abs/1710.05941) <br>
 
 ## 5.8 mish 
 **原理** <br>
-对激活函数的研究一直没有停止过，ReLU还是统治着深度学习的激活函数，不过，这种情况有可能会被Mish改变，目前的想法是，平滑的激活函数允许更好的信息深入神经网络，从而得到更好的准确性和泛化, Mish函数在曲线上几乎所有点上的平滑度都很高。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对激活函数的研究一直没有停止过，ReLU还是统治着深度学习的激活函数，不过，这种情况有可能会被Mish改变，目前的想法是，平滑的激活函数允许更好的信息深入神经网络，从而得到更好的准确性和泛化, Mish函数在曲线上几乎所有点上的平滑度都很高。<br>
 
 **结论** <br>
-mish 激活函数在最终准确度上比Swish(+.494%)和ReLU(+ 1.671%)都有提高. <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mish 激活函数在最终准确度上比Swish(+.494%)和ReLU(+ 1.671%)都有提高. <br>
 
 **公式** <br>
+
 $$ Mish(x) = x \times tanh(ln(1+e^{x}))$$
 
 **图像** <br>
 ![act-figure13](images/op-activation-figure13.jpg)
 
-[Mish pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.Mish.html#torch.nn.Mish)
+- [Mish pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.Mish.html#torch.nn.Mish)
 ```python
 m = nn.Mish()
 input = torch.randn(2)
 output = m(input)
 ```
 
-[论文链接](https://arxiv.org/abs/1908.08681)
+- [论文链接](https://arxiv.org/abs/1908.08681)
 
 ## 5.9 Softmax
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;softmax函数用于将一组实数转换为范围在[0, 1]之间且总和为1的概率分布。它常用于多类分类问题中，将原始预测值转换为类别概率。<br>
+
 **思考：与其它激活函数有何不同？？？**
 
 **公式** <br>
 
 $$Softmax(x_{i}) = \frac{\exp (x_{i})}{\sum_{j} \exp (x_{j})}$$
 
-[Softmax pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.Softmax.html#torch.nn.Softmax)
+- [Softmax pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.Softmax.html#torch.nn.Softmax)
 ```python
 m = nn.Softmax(dim=1)
 input = torch.randn(2, 3)
