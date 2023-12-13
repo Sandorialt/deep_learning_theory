@@ -1,4 +1,4 @@
-![image](https://github.com/Elvin-Ma/deep_learning_theory/assets/54735483/dea520d6-f630-4a2a-b215-f89348b29a63)# 1 从RNN 到 Seq2Seq
+# 1 从RNN 到 Seq2Seq
 ## 1.1 RNN 简述
 实际场景中，会遇到很多序列型输入数据的情况：<br>
 - 自然语言处理(nlp)问题。x1可以看做是第一个单词，x2可以看做是第二个单词，依次类推。
