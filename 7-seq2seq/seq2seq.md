@@ -16,16 +16,16 @@
 ## 1.2 RNN 应用场景
 值得注意的是，RNN的输入是 $x_{1}, x_{2}, \dots, x_{n}$ ，输出为 $y_{1}, y_{2}, \dots, y_{n}$ ，也就是说，输入和输出序列必须要是等长的。由于这个限制的存在，经典RNN的适用范围比较小，但也有一些问题适合用经典的RNN结构建模. <br>
 
-**RNN 解决 N VS N 问题** <br>
+### 1.2.1 RNN 解决 N VS N 问题
 - ner 问题；
 - 完形填空问题等；
 
-**RNN 解决 N Versus 1 问题** <br>
+### 1.2.2 RNN 解决 N Versus 1 问题** <br>
 ![N v 1](https://pic1.zhimg.com/80/v2-6caa75392fe47801e605d5e8f2d3a100_1440w.webp)
 
 这种结构通常用来处理序列分类问题。如输入一段文字判别它所属的类别，输入一个句子判断其情感倾向，输入一段视频并判断它的类别等等。<br>
 
-**RNN 解决 1 VS N 问题** <br>
+### 1.2.3 RNN 解决 1 VS N 问题
 输入不是序列而输出为序列的情况怎么处理？我们可以只在序列开始进行输入计算：<br>
 ![1 vs N](https://pic3.zhimg.com/80/v2-87ebd6a82e32e81657682ffa0ba084ee_1440w.webp)
 
@@ -54,19 +54,32 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Seq2seq将输入序列转换为输出序列。它通过利用循环神经网络（递归神经网络）或更常用的LSTM GRU网络来避免梯度消失问题。当前项的内容总来源于前一步的输出。Seq2seq主要由一个编码器和一个解码器组成。 编码器将输入转换为一个隐藏状态向量，其中包含输入项的内容。 解码器进行相反的过程，将向量转换成输出序列，并使用前一步的输出作为下一步的输入。[4]
 
 # 2.2 seq2seq 模型结构
-**首先要得到上下文状态 Context**
-[context 得到](https://pic2.zhimg.com/80/v2-03aaa7754bb9992858a05bb9668631a9_720w.webp)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在Seq2Seq结构中，编码器Encoder把所有的输入序列都编码成一个统一的语义向量Context，然后再由解码器Decoder解码。在解码器Decoder解码的过程中，不断地将前一个时刻 t-1 的输出作为后一个时刻 t -1 的输入，循环解码，直到输出停止符为止。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;与经典RNN结构不同的是，**Seq2Seq结构不再要求输入和输出序列有相同的时间长度！** <br>
 
-
-
-
+### 2.2.1 encoder-decoder 架构
 ![典型seq2seq模型](https://pic1.zhimg.com/80/v2-a5012851897f8cc685bc946e73496304_1440w.webp)
 
 ![典型结构1](https://mmbiz.qpic.cn/mmbiz_png/QLDSy3Cx3YIn4IzP3UVrS6HfxiatGYDIPiaWdDtrP1dVOd6okQUdccAHLDhibmVW76ia3kqVHkWjtPXUOYumniachBQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
 
-![典型结构2](https://pic2.zhimg.com/80/v2-343dbbf86c8e92e9fc8d6b3a938c0d1d_720w.webp)
+### 2.2.2 encoder --> 获取上下文向量
+encoder 部分首先将输入序列编码成一个上下文向量:<br>
+![context vector](https://pic2.zhimg.com/80/v2-03aaa7754bb9992858a05bb9668631a9_720w.webp)
 
-**decoder 展开图如下** <br>
+得到c有多种方式，最简单的方法就是把Encoder的最后一个隐状态赋值给c，还可以对最后的隐状态做一个变换得到c，也可以对所有的隐状态做变换。<br>
+
+### 2.2.3 decoder 解码部分
+**形式1: 具体做法就是将c当做之前的初始状态h0输入到Decoder中：**
+![decoder 1](https://pic4.zhimg.com/80/v2-77e8a977fc3d43bec8b05633dc52ff9f_720w.webp)
+
+**形式2: 将c当做每一步的输入：** <br>
+![decoder 2](https://pic4.zhimg.com/80/v2-e0fbb46d897400a384873fc100c442db_720w.webp)
+
+## 2.3 Seq2Seq 实现举例
+以机器翻译为例，整个编解码过程为: <br>
+![MT 任务](https://pic2.zhimg.com/80/v2-343dbbf86c8e92e9fc8d6b3a938c0d1d_720w.webp)
+
+**decoder 部分展开图如下** <br>
 ![decoder 展开图](https://pic4.zhimg.com/80/v2-893e331af6b07789bbd7095c16421f2f_720w.webp)
 - 红点是embdding 后的输入向量
 - 绿点是RNN单元
@@ -74,13 +87,25 @@
 - 橘黄点是线性变换后的值
 - 最上点是此时间步的输出，一般为 词汇表的index 索引
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在Seq2Seq结构中，编码器Encoder把所有的输入序列都编码成一个统一的语义向量Context，然后再由解码器Decoder解码。在解码器Decoder解码的过程中，不断地将前一个时刻 t-1 的输出作为后一个时刻 t -1 的输入，循环解码，直到输出停止符为止。<br>
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;与经典RNN结构不同的是，**Seq2Seq结构不再要求输入和输出序列有相同的时间长度！** <br>
-
-![典型RNN 过程](https://mmbiz.qpic.cn/mmbiz_png/QLDSy3Cx3YIn4IzP3UVrS6HfxiatGYDIPOMusFU6EUx6cX7phVgib9eY2M9DuVySCu86wFDTHnxn2bsqxE89zlwQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
-
 # 3 Seq2Seq 中的 Attention 机制
+在Encoder-Decoder结构中，Encoder把所有的输入序列都编码成一个统一的语义特征context再解码，因此， context中必须包含原始序列中的所有信息，它的长度就成了限制模型性能的瓶颈。如机器翻译问题，当要翻译的句子较长时，一个context可能存不下那么多信息，就会造成翻译精度的下降。<br>
+
+## 3.1 Attention 原理 <br>
+所以如果要改进Seq2Seq结构，最好的切入角度就是：利用Encoder所有隐藏层状态 $h_{t}$ 解决Context长度限制问题。<br>
+
+![attention 原理](https://pic2.zhimg.com/80/v2-fef12f577181140a33921ee19f719f29_720w.webp)
+
+## Luong Attention
+![figure1](images/luong-attention-figure1.jpg)
+![figure2](images/luong-attention-figure2.jpg)
+
+# 4 Seq2Seq 的训练
+## 4.1 在使用Seq2Seq 进行预测时流程
+![encoder-decoder](https://mmbiz.qpic.cn/mmbiz_png/QLDSy3Cx3YIn4IzP3UVrS6HfxiatGYDIPOMusFU6EUx6cX7phVgib9eY2M9DuVySCu86wFDTHnxn2bsqxE89zlwQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+预测时，Encoder端没什么变化，在Decoder端，由于此时没有所谓的“真实输出”或“标准答案”了，所以只能「自产自销：每一步的预测结果，都送给下一步作为输入」，直至输出<end>就结束。如果你对我之前写的笔记很熟悉的话，会发现，「这时的Decoder就是一个语言模型」。由于这个语言模型是根据context vector来进行文本的生成的，因此这种类型的语言模型，被称为“条件语言模型”：Conditional LM。正因为如此，在训练过程中，我们可以使用一些预训练好的语言模型来对Decoder的参数进行初始化，从而加快迭代过程。<br>
+
+## 4.2 训练时的不同
 
 
 
@@ -120,6 +145,7 @@
 - 存入桶:变序列长度是可能的，因为填补0，这可以做到的输入和输出。 然而，如果的序列长度为100和输入只有3项长、昂贵的空间被浪费。 桶可以不同规模和指定的输入和输出的长度。
 
 # 参考文献
-[参考文献1](https://spaces.ac.cn/archives/5861)
-[参考文献2](https://arxiv.org/pdf/1409.3215.pdf)
-[参考文献3](https://mp.weixin.qq.com/s/dXqAdb524o3lBZcQiXQacw)
+[参考文献1](https://spaces.ac.cn/archives/5861) <br>
+[参考文献2](https://arxiv.org/pdf/1409.3215.pdf)  <br>
+[参考文献3](https://mp.weixin.qq.com/s/dXqAdb524o3lBZcQiXQacw)  <br>
+[Luong Attention](https://arxiv.org/abs/1508.04025)  <br>
