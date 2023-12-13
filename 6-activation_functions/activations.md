@@ -222,7 +222,7 @@ $$ x \Phi(x) \approx \frac{1}{2} \times [1 + tanh (\sqrt{\frac{2}{\pi}}(x+0.0447
 **图像：** <br>
 ![act-figure9](images/op-activation-figure9.jpg)
 
-[gelu pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.GELU.html#torch.nn.GELU)
+- [gelu pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.GELU.html#torch.nn.GELU)
 ```python
 m = nn.GELU()
 input = torch.randn(2)
@@ -303,7 +303,17 @@ input = torch.randn(2, 3)
 output = m(input)
 ```
 
-# 10 参考链接
+# 10 总结：好的激活函数应有的性质
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;依据上文的讨论及激活函数的发展规律，可以初步得出一个良好的激活函数常具备以下一些特点：<br>
+1. 非线性以及可微性;
+2. 解决梯度消失问题，也避免出现梯度爆炸问题;
+3. 解决“神经元坏死问题;
+4. 符合或近似符合0 均值分布;
+5. 计算的时间、空间复杂度小;
+6. 存在一定的稀疏性;
+7. 计算复杂度低。
+
+# 11 参考链接
 - [激活函数汇总](http://spytensor.com/index.php/archives/23/?xqrspi=xnemo1) <br>
 - [激活函数综述](https://www.xhuqk.com/xhdxxbzkb/article/doi/10.12198/j.issn.1673-159X.3761) <br>
 - [Activation 可视化](https://dashee87.github.io/deep%20learning/visualising-activation-functions-in-neural-networks/) <br>
