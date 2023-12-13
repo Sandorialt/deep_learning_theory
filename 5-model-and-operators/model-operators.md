@@ -326,25 +326,240 @@ output = m(input)
 ```
 - [GlobalAvgPool 论文链接](https://arxiv.org/pdf/1312.4400.pdf%20http://arxiv.org/abs/1312.4400.pdf)
 
+# 5 activation functions
 
+- [参考下一课时](../6-activation_functions/activations.md)
 
-# 6 reshape view permute transpose
+# 6 reshape、 view、 permute、transpose
+## 6.1 reshape 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;返回一个具有与输入相同的数据和元素数量，但具有指定形状的张量。如果可能的话，返回的张量将是输入的视图。否则，它将是一个副本。连续的输入和具有兼容步幅的输入可以进行重塑而无需复制，但您不应依赖于复制与视图行为。<br>
 
-# 7 pointwise
+![figure11](images/op-figure11.jpg)
 
-# 8 embedding
+[pytorch reshapes 实现](https://pytorch.org/docs/stable/generated/torch.reshape.html#torch-reshape)
+```python
+a = torch.arange(4.)
+torch.reshape(a, (2, 2))
+b = torch.tensor([[0, 1], [2, 3]])
+torch.reshape(b, (-1,))
+```
 
-# 9 dropout
+## 6.2 view
+返回原始数据的不同shape。<br>
+
+[pytorch view 实现](https://pytorch.org/docs/stable/generated/torch.Tensor.view.html#torch.Tensor.view)
+```python
+x = torch.randn(4, 4)
+x.size()
+y = x.view(16)
+y.size()
+z = x.view(-1, 8)  # the size -1 is inferred from other dimensions
+z.size()
+
+a = torch.randn(1, 2, 3, 4)
+a.size()
+b = a.transpose(1, 2)  # Swaps 2nd and 3rd dimension
+b.size()
+c = a.view(1, 3, 2, 4)  # Does not change tensor layout in memory
+c.size()
+torch.equal(b, c)
+```
+
+## 6.3 transpose
+交换Tensor的两个轴并返回。<br>
+![figure12](images/op-figure12.jpg)
+
+[pytorch transpose 实现](https://pytorch.org/docs/stable/generated/torch.transpose.html#torch-transpose)
+```python
+x = torch.randn(2, 3)
+x
+torch.transpose(x, 0, 1)
+```
+
+## 6.4 permute
+tensor 多轴交换。<br>
+[pytorch permute 实现](https://pytorch.org/docs/stable/generated/torch.permute.html#torch-permute)
+```python
+x = torch.randn(2, 3, 5)
+x.size()
+torch.permute(x, (2, 0, 1)).size()
+```
+
+# 7 sequenze 和 unequenze
+压缩维度与解压维度。
+
+**图像** <br>
+![figure13](images/op-figure13.jpg)
+
+# 8 concat、stack、expand 和 flatten
+## 8.1 concat
+在给定的维度上拼接给定的序列张量。所有张量必须具有相同的形状（除了拼接维度），或者为空。是split 的逆运算，是torch.cat的别名。<br>
+[pytorch concat 实现](https://pytorch.org/docs/stable/generated/torch.cat.html#torch.cat)
+```python
+x = torch.randn(2, 3)
+torch.cat((x, x, x), 0)
+torch.cat((x, x, x), 1)
+```
+## 8.2 stack
+在新轴上拼接Tensor。
+```python
+a = torch.randn(2,3)
+b = torch.randn(2,3)
+c= torch.stack([a,b], dim=1)
+```
+
+## 8.3 expand
+返回一个self张量的新视图，其中的单例维度被扩展到更大的大小。<br>
+[pytorch expant 实现](https://pytorch.org/docs/stable/generated/torch.Tensor.expand.html)
+```python
+x = torch.tensor([[1], [2], [3]])
+x.size()
+x.expand(3, 4)
+x.expand(-1, 4)   # -1 means not changing the size of that dimension
+```
+**思考：expand 后的形状可以随便写吗？需要满足什么规则 ？？？** <br>
+
+## 8.4 flatten
+通过将输入张量重塑为一维张量来对其进行扁平化。如果传递了start_dim或end_dim，则只有以start_dim开头且以end_dim结尾的维度被扁平化。输入中元素的顺序保持不变。<br>
+[pytorch flatten 实现](https://pytorch.org/docs/stable/generated/torch.flatten.html#torch-flatten)
+```python
+t = torch.tensor([[[1, 2],
+                   [3, 4]],
+                  [[5, 6],
+                   [7, 8]]])
+torch.flatten(t)
+torch.flatten(t, start_dim=1)
+```
+
+# 9 pointwise
+Tensor 中逐元素进行的操作，也叫element wise 操作，大部分的activation 算子以及 add、sub、mul、div、sqrt 等都属于pointwise 类别。
+
+[pytorch 实现](https://pytorch.org/docs/stable/generated/torch.sqrt.html#torch.sqrt)
+```python
+a = torch.randn(4)
+torch.sqrt(a)
+```
+**思考：不同维度的两个Tensor 可以进行pointwise 操作吗？ 能的话规则是什么样的？？？** <br>
 
 # 10 split 和 slice
+## 10.1 split
+将张量分割成多个块。每个块都是原始张量的视图。<br>
+[pytorch split 实现](https://pytorch.org/docs/stable/generated/torch.split.html#torch.split)
 
-# 11 附录
+```python
+a = torch.arange(10).reshape(5, 2)
+torch.split(a, 2)
+torch.split(a, [1, 4])
+```
+**思考：是沿着那个轴进行split 呢？？** <br>
+
+## 10.2 slice
+**直接用索引来实现** <br>
+```python
+import torch
+# 创建一个示例张量
+tensor = torch.tensor([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+# 对张量进行切片
+slice_tensor = tensor[2:7]  # 从索引2到索引6（不包含7）
+print(slice_tensor)  # 输出: tensor([3, 4, 5, 6, 7])
+# 使用步长对张量进行切片
+step_slice_tensor = tensor[1:9:2]  # 从索引1到索引8（不包含9），步长为2
+print(step_slice_tensor)  # 输出: tensor([2, 4, 6, 8])
+# 省略起始索引和结束索引来选择整个张量
+full_tensor = tensor[:]
+print(full_tensor)  # 输出: tensor([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+```
+
+# 11 reduce 规约类算子
+**mean** <br>
+```python
+a = torch.randn(4, 4)
+torch.mean(a, 1)
+torch.mean(a, 1, True)
+```
+**var** <br>
+```python
+a = torch.tensor(
+    [[ 0.2035,  1.2959,  1.8101, -0.4644],
+     [ 1.5027, -0.3270,  0.5905,  0.6538],
+     [-1.5745,  1.3330, -0.5596, -0.6548],
+     [ 0.1264, -0.5080,  1.6420,  0.1992]])
+torch.var(a, dim=1, keepdim=True)
+```
+**sum** <br>
+```python
+a = torch.randn(4, 4)
+torch.sum(a, 1)
+b = torch.arange(4 * 5 * 6).view(4, 5, 6)
+torch.sum(b, (2, 1))
+```
+
+**max** <br>
+```python
+a = torch.randn(4, 4)
+torch.max(a, 1)
+```
+
+**min** <br>
+```python
+a = torch.randn(4, 4)
+torch.min(a, 1)
+```
+
+# 12 embedding
+这个模块经常被用来存储单词嵌入，并使用索引来检索它们。该模块的输入是一个索引列表，输出是相应的单词嵌入。<br>
+[pytorch embedding 实现](https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html#torch.nn.Embedding)
+```python
+# an Embedding module containing 10 tensors of size 3
+embedding = nn.Embedding(10, 3)
+# a batch of 2 samples of 4 indices each
+input = torch.LongTensor([[1, 2, 4, 5], [4, 3, 2, 9]])
+embedding(input)
+
+# example with padding_idx
+embedding = nn.Embedding(10, 3, padding_idx=0)
+input = torch.LongTensor([[0, 2, 0, 5]])
+embedding(input)
+
+# example of changing `pad` vector
+padding_idx = 0
+embedding = nn.Embedding(3, 3, padding_idx=padding_idx)
+embedding.weight
+with torch.no_grad():
+    embedding.weight[padding_idx] = torch.ones(3)
+embedding.weight
+
+# FloatTensor containing pretrained weights
+weight = torch.FloatTensor([[1, 2.3, 3], [4, 5.1, 6.3]])
+embedding = nn.Embedding.from_pretrained(weight)
+# Get embeddings for index 1
+input = torch.LongTensor([1])
+embedding(input)
+```
+
+# 13 dropout
+在训练过程中，使用从伯努利分布中采样的样本，以概率p随机将输入张量的某些元素置零。每个通道在每次前向调用时都会独立地被置零。<br>
+
+**原理图** <br>
+![figure14](images/op-figure14.jpg)
+
+[pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.Dropout.html#torch.nn.Dropout)
+```python
+m = nn.Dropout(p=0.2)
+input = torch.randn(20, 16)
+output = m(input)
+```
+
+**思考：训练和推理时这个算子表现有何不同 ？？？*** <br>
+
+[论文链接](https://arxiv.org/abs/1207.0580)
+
+# 14 附录
 - [onnx 算子列表](https://github.com/onnx/onnx/blob/main/docs/Operators.md) <br>
 - [pytorch 算子列表](https://pytorch.org/docs/stable/nn.html) <br>
 
-# 12 参考链接
+# 15 参考链接
 - [激活函数汇总](http://spytensor.com/index.php/archives/23/?xqrspi=xnemo1) <br>
 - [激活函数综述](https://www.xhuqk.com/xhdxxbzkb/article/doi/10.12198/j.issn.1673-159X.3761) <br>
 - [Activation 可视化](https://dashee87.github.io/deep%20learning/visualising-activation-functions-in-neural-networks/) <br>
-
   
