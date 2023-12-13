@@ -1,4 +1,4 @@
-# 1 从RNN 到 Seq2Seq
+![image](https://github.com/Elvin-Ma/deep_learning_theory/assets/54735483/dea520d6-f630-4a2a-b215-f89348b29a63)# 1 从RNN 到 Seq2Seq
 ## 1.1 RNN 简述
 实际场景中，会遇到很多序列型输入数据的情况：<br>
 - 自然语言处理(nlp)问题。x1可以看做是第一个单词，x2可以看做是第二个单词，依次类推。
@@ -99,50 +99,68 @@ encoder 部分首先将输入序列编码成一个上下文向量:<br>
 ![figure1](images/luong-attention-figure1.jpg)
 ![figure2](images/luong-attention-figure2.jpg)
 
-# 4 Seq2Seq 的训练
-## 4.1 在使用Seq2Seq 进行预测时流程
+# 4 Seq2Seq 的预测和训练
+## 4.1 预测时流程
 ![encoder-decoder](https://mmbiz.qpic.cn/mmbiz_png/QLDSy3Cx3YIn4IzP3UVrS6HfxiatGYDIPOMusFU6EUx6cX7phVgib9eY2M9DuVySCu86wFDTHnxn2bsqxE89zlwQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
 
-预测时，Encoder端没什么变化，在Decoder端，由于此时没有所谓的“真实输出”或“标准答案”了，所以只能「自产自销：每一步的预测结果，都送给下一步作为输入」，直至输出<end>就结束。如果你对我之前写的笔记很熟悉的话，会发现，「这时的Decoder就是一个语言模型」。由于这个语言模型是根据context vector来进行文本的生成的，因此这种类型的语言模型，被称为“条件语言模型”：Conditional LM。正因为如此，在训练过程中，我们可以使用一些预训练好的语言模型来对Decoder的参数进行初始化，从而加快迭代过程。<br>
+预测时，Encoder端没什么变化，在Decoder端，使用**自产自销的策略**：每一步的预测结果，都送给下一步作为输入，直至输出<end>就结束, 这种模式我们称之为 free running。这时的Decoder就是一个语言模型(LM)。由于这个语言模型是根据context vector来进行文本的生成的，因此这种类型的语言模型，被称为“条件语言模型”：Conditional LM。正因为如此，在训练过程中，我们可以使用一些预训练好的语言模型来对Decoder的参数进行初始化，从而可以加快迭代过程(具体见4.3节)。<br>
 
 ## 4.2 训练时的不同
 
+**思考：在训练的时候，可以直接使用预测时语言模型(LM)的模式，使用上一步的预测来作为下一步的输入吗？？？**
+
+free running的模式不能在训练时使用吗？——当然是可以的！从理论上没有任何的问题，又不是不能跑。但是，在实践中人们发现，这样训练太南了。因为没有任何的引导，一开始会完全是瞎预测，正所谓“一步错，步步错”，而且越错越离谱，这样会导致训练时的累积损失太大（「误差爆炸」问题，exposure bias），训练起来就很费劲。<br>
+
+### 4.2.1 Teacher Forcing 
+在每一步的预测时，让老师来指导一下，即提示一下上一个词的正确答案，decoder就可以快速步入正轨，训练过程也可以更快收敛。因此大家把这种方法称为teacher forcing。所以，这种操作的目的就是为了使得训练过程更容易。<br>
+
+![Teacher Forcing](https://mmbiz.qpic.cn/mmbiz_png/QLDSy3Cx3YIn4IzP3UVrS6HfxiatGYDIPHmtoIwZkHBMewAZFTL7yJdiaFavtnxrzwzntYlYD9GKdvAecg0mnicPw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+**思考：Teacher Forcing 就没问题吗？？？**
+
+### 4.2.2 Scheduled sampling
+更好的办法，更常用的办法，是老师只给适量的引导，学生也积极学习。即我们设置一个概率p，每一步，以概率p靠自己上一步的输入来预测，以概率1-p根据老师的提示来预测，这种方法称为 **计划采样(scheduled sampling)**。 <br>
+
+[scheduled sampling](https://mmbiz.qpic.cn/mmbiz_png/QLDSy3Cx3YIn4IzP3UVrS6HfxiatGYDIPT0qBiaIac80H1QdKsTvgaYkBLXblLiaYAIYJ0ibzMveOG30BVL4tico6WA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+注意: 在seq2seq的训练过程中，decoder即使遇到了<end>标识也不会结束，因为训练的时候并不是一个生成的过程 ，我们需要等到“标准答案”都输入完才结束。<br>
+
+## 4.3 Decoder的预训练
+条件语言模型意味着Decoder 训练好了之后，具有了某种能力，可以处理不同的Context vector 产生不同的结果。此时，Decoder 无需再变化，只需要更新Context vector就好了。
+
+在训练过程中使用预训练的语言模型来初始化Decoder的参数可以带来以下好处：<br>
+- 加速收敛：预训练的语言模型通常经过大规模的数据和计算资源训练得到，具有较好的语言表示能力。通过使用预训练模型初始化Decoder的参数，可以将这些丰富的语言表示能力引入到模型中，从而为模型提供一个较好的起点。这有助于加快模型的收敛速度，减少训练时间和资源消耗。
+- 提供语义信息：预训练的语言模型在大规模数据上学习到了丰富的语义信息和语言规律。通过初始化Decoder参数，模型可以从预训练模型中继承这些有用的语言特征和知识，从而更好地理解和生成文本。这有助于生成更准确、流畅的语句，并提高生成文本的语义质量。
+- 缓解数据稀疏性问题：在训练过程中，特别是当训练数据较少时，语言模型可能面临数据稀疏性的问题。通过使用预训练模型初始化Decoder的参数，可以利用预训练模型在大规模数据上学习到的语言分布信息，缓解数据稀疏性问题，提高模型的泛化能力和生成能力。
+需要注意的是，预训练的语言模型通常是在大规模的无监督数据上进行预训练，而在具体任务上进行微调。这种预训练-微调的方式可以在任务特定的数据上进行更好的参数优化，同时保留了预训练模型所学到的通用语言表示能力。这种迁移学习的思想使得使用预训练语言模型来初始化Decoder参数成为一种有效的策略。<br>
 
 
 
-# 3 机器翻译案例
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;接下来以机器翻译为例，看看如何通过Seq2Seq结构把中文“早上好”翻译成英文“Good morning”：<br>
+# 3 Seq2Seq 案例
+## 3.1 nlp 中常见任务
+NLP（自然语言处理）领域有许多常见的任务，涵盖了对自然语言进行理解和生成的各个方面。以下是一些常见的NLP任务：<br>
+1. 文本分类（Text Classification）：将文本分为不同的类别或标签，如情感分类、主题分类等。
+2. 命名实体识别（Named Entity Recognition，NER）：从文本中识别和提取命名实体，如人名、地名、组织机构等。
+3. 信息抽取（Information Extraction）：从非结构化文本中提取结构化信息，如关系抽取、事件抽取等。
+4. 问答系统（Question Answering）：回答用户提出的自然语言问题，可以是基于检索的问答或阅读理解型问答。
+5. 机器翻译（Machine Translation，MT）：将一种语言的文本翻译成另一种语言的文本。
+6. 情感分析（Sentiment Analysis）：分析文本的情感倾向，判断文本是正面的、负面的还是中性的。
+7. 文本生成（Text Generation）：生成符合语法和语义规则的文本，如文本摘要、对话生成等。
+8. 语言模型（Language Modeling）：对给定的上下文进行下一个单词或字符的预测，用于自动补全、机器翻译等任务。
+9. 序列标注（Sequence Labeling）：给定输入序列，为每个序列元素分配一个标签，如词性标注、命名实体识别等。
+10. 文本聚类（Text Clustering）：将文本集合分成不同的群组，每个群组包含相似的文本。
+11. 文本摘要（Text Summarization）：从长文本中提取关键信息，生成较短的摘要。
+12. 对话系统（Dialogue Systems）：处理人机对话，并与用户进行自然语言交互。
+13. 语义角色标注（Semantic Role Labeling）：为句子中的谓词和论元分配语义角色，描述句子中的事件和参与者。
+14. 语言生成（Language Generation）：生成自然语言文本，如机器翻译、文本摘要、对话生成等。
+这些任务代表了NLP领域中的一些核心问题和应用，研究人员和从业者致力于开发和改进相应的算法和技术，以提高自然语言处理系统的性能和效果。
 
-[翻译任务展示](https://pic2.zhimg.com/80/v2-343dbbf86c8e92e9fc8d6b3a938c0d1d_1440w.webp)
+## 3.2 TM Example
 
-- 将“早上好”通过Encoder编码，并将最后 t=3 时刻的隐藏层状态 $h_{3}$ 作为语义向量。
-- 以语义向量为Decoder的 $h_{0}$ 状态，同时在 t=1 时刻输入 <start> 特殊标识符，开始解码。之后不断的将前一时刻输出作为下一时刻输入进行解码，直接输出<stop>特殊标识符结束。
 
-进一步来看上面机器翻译例子Decoder端的t时刻数据流，如上图所示. 需要注意的是，上述案例只是Seq2Seq结构的一种经典实现方式。<br>
-[机器翻译数据流图](https://pic4.zhimg.com/80/v2-893e331af6b07789bbd7095c16421f2f_1440w.webp)
-
-上一时刻输入传到下一时刻要经过embedding：
-[embedding](https://pic2.zhimg.com/80/v2-95c70886fd5f7e455de11d5594336655_720w.webp)
-
-```python
-'<start>' : 0  <-----> label('<start>')=[1, 0, 0, 0, 0,..., 0]
-'<stop>' :  1  <-----> label('<stop>') =[0, 1, 0, 0, 0,..., 0]
-'hello':    2  <-----> label('hello')  =[0, 0, 1, 0, 0,..., 0]
-'good' :    3  <-----> label('good')   =[0, 0, 0, 1, 0,..., 0]
-'morning' : 4  <-----> label('morning')=[0, 0, 0, 0, 1,..., 0]
-```
+# 4 embdeding
 *注释：还可以使用word2vec/glove/elmo/bert等更加“精致”的嵌入方法，也可以在训练过程中迭代更新embedding。这些内容超出本文范围，不再详述。*
 
-# 4 Seq2Seq训练问题
-值得一提的是，在seq2seq结构中将 
- 作为下一时刻输入 
- 进网络，那么某一时刻输出 
- 错误就会导致后面全错。在训练时由于网络尚未收敛，这种蝴蝶效应格外明显。
-
-# 5 seq2seq 优化手段
-- 注意力机制：解码器的输入只有一个单独的向量，这个向量包含输入序列的全部信息。注意力机制允许解码器有选择的分块地使用输入序列的信息。
-- 束搜索，而不是选择单一的输出(文字)作为输出、多极有可能选择是保留，结构化作为一个树（使用 Softmax 上设置的注意力的分数[7]）。 平均编码器国家加权关注的分布。
-- 存入桶:变序列长度是可能的，因为填补0，这可以做到的输入和输出。 然而，如果的序列长度为100和输入只有3项长、昂贵的空间被浪费。 桶可以不同规模和指定的输入和输出的长度。
 
 # 参考文献
 [参考文献1](https://spaces.ac.cn/archives/5861) <br>
