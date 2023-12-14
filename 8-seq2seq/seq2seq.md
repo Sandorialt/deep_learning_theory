@@ -160,7 +160,7 @@
 ### 4.2.2 Scheduled sampling
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;更高端的教学模式是老师只给适量的引导，学生也积极学习。即我们设置一个概率p，每一步，以概率p靠自己上一步的输入来预测，以概率1-p根据老师的提示来预测，这种方法称为 **计划采样(scheduled sampling)**。 <br>
 
-[scheduled sampling](images/seq2seq-figure18.jpg)
+![scheduled sampling](images/seq2seq-figure18.jpg)
 
 *(注意: 在seq2seq的训练过程中，decoder即使遇到了<end>标识也不会结束，因为训练的时候并不是一个生成的过程 ，我们需要等到“标准答案”都输入完才结束。)* <br>
 
