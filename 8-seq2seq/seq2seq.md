@@ -7,7 +7,7 @@
 
 序列形的数据就不太好用原始的神经网络处理了。为了建模序列问题，RNN引入了隐状态h（hidden state）的概念，h可以对序列形的数据提取特征，接着再转换为输出，如下图典型RNN 原理图所示：<br>
 
-![RNN 原理图](https://pic2.zhimg.com/80/v2-629abbab0d5cc871db396f17e9c58631_1440w.webp)
+![RNN 原理图](images/seq2seq-figure1.jpg)
 
 **其中：** <br>
 - 圆圈或方块表示的是向量。
@@ -21,19 +21,19 @@
 - 完形填空问题等；
 
 ### 1.2.2 RNN 解决 N Versus 1 问题** <br>
-![N v 1](https://pic1.zhimg.com/80/v2-6caa75392fe47801e605d5e8f2d3a100_1440w.webp)
+![N v 1](images/seq2seq-figure2.jpg)
 
 这种结构通常用来处理序列分类问题。如输入一段文字判别它所属的类别，输入一个句子判断其情感倾向，输入一段视频并判断它的类别等等。<br>
 
 ### 1.2.3 RNN 解决 1 VS N 问题
 输入不是序列而输出为序列的情况怎么处理？我们可以只在序列开始进行输入计算：<br>
-![1 vs N](https://pic3.zhimg.com/80/v2-87ebd6a82e32e81657682ffa0ba084ee_1440w.webp)
+![1 vs N](images/seq2seq-figure3.jpg)
 
 还有一种结构是把输入信息X作为每个阶段的输入: <br>
-![1 vs N](https://pic3.zhimg.com/80/v2-fe054c488bb3a9fbcdfad299b2294266_1440w.webp)
+![1 vs N](images/seq2seq-figure4.jpg)
 
 等价表示为：
-![1 vs N](https://pic1.zhimg.com/80/v2-16e626b6e99fb1d23c8a54536f7d28dc_1440w.webp)
+![1 vs N](images/seq2seq-figure5.jpg)
 
 这种1 VS N的结构可以处理的问题有：<br>
 - 从图像生成文字（image caption），此时输入的X就是图像的特征，而输出的y序列就是一段句子
@@ -47,7 +47,7 @@
 # 2 Seq2Seq 模型
 
 # 2.1 Seq2Seq 定义
-![wikipedia](https://zh.wikipedia.org/wiki/Seq2Seq%E6%A8%A1%E5%9E%8B)
+![wikipedia](images/seq2seq-figure6.jpg)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Seq2seq（Sequence to sequence）模型，是将序列（Sequence）映射到序列的神经网络机器学习模型。这个模型最初设计用于改进机器翻译技术，可容许机器通过此模型发现及学习将一种语言的语句（词语序列）映射到另一种语言的对应语句上。除此之外，Seq2Seq也能广泛地应用到各种不同的技术上，如聊天机器人、Inbox by Gmail等，但需要有配对好的文本集才能训练出对应的模型。<br>
 
@@ -58,29 +58,29 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;与经典RNN结构不同的是，**Seq2Seq结构不再要求输入和输出序列有相同的时间长度！** <br>
 
 ### 2.2.1 encoder-decoder 架构
-![典型seq2seq模型](https://pic1.zhimg.com/80/v2-a5012851897f8cc685bc946e73496304_1440w.webp)
+![典型seq2seq模型](images/seq2seq-figure7.jpg)
 
-![典型结构1](https://mmbiz.qpic.cn/mmbiz_png/QLDSy3Cx3YIn4IzP3UVrS6HfxiatGYDIPiaWdDtrP1dVOd6okQUdccAHLDhibmVW76ia3kqVHkWjtPXUOYumniachBQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+![典型结构1](images/seq2seq-figure8.jpg)
 
 ### 2.2.2 encoder --> 获取上下文向量
 encoder 部分首先将输入序列编码成一个上下文向量:<br>
-![context vector](https://pic2.zhimg.com/80/v2-03aaa7754bb9992858a05bb9668631a9_720w.webp)
+![context vector](images/seq2seq-figure9.jpg)
 
 得到c有多种方式，最简单的方法就是把Encoder的最后一个隐状态赋值给c，还可以对最后的隐状态做一个变换得到c，也可以对所有的隐状态做变换。<br>
 
 ### 2.2.3 decoder 解码部分
 **形式1: 具体做法就是将c当做之前的初始状态h0输入到Decoder中：**
-![decoder 1](https://pic4.zhimg.com/80/v2-77e8a977fc3d43bec8b05633dc52ff9f_720w.webp)
+![decoder 1](images/seq2seq-figure10.jpg)
 
 **形式2: 将c当做每一步的输入：** <br>
-![decoder 2](https://pic4.zhimg.com/80/v2-e0fbb46d897400a384873fc100c442db_720w.webp)
+![decoder 2](images/seq2seq-figure11.jpg)
 
 ## 2.3 Seq2Seq 实现举例
 以机器翻译为例，整个编解码过程为: <br>
-![MT 任务](https://pic2.zhimg.com/80/v2-343dbbf86c8e92e9fc8d6b3a938c0d1d_720w.webp)
+![MT 任务](images/seq2seq-figure12.jpg)
 
 **decoder 部分展开图如下** <br>
-![decoder 展开图](https://pic4.zhimg.com/80/v2-893e331af6b07789bbd7095c16421f2f_720w.webp)
+![decoder 展开图](images/seq2seq-figure13.jpg)
 - 红点是embdding 后的输入向量
 - 绿点是RNN单元
 - 蓝点是某一时刻的输出向量
@@ -96,12 +96,12 @@ encoder 部分首先将输入序列编码成一个上下文向量:<br>
 ![attention 原理](https://pic2.zhimg.com/80/v2-fef12f577181140a33921ee19f719f29_720w.webp)
 
 ## Luong Attention
-![figure1](images/luong-attention-figure1.jpg)
-![figure2](images/luong-attention-figure2.jpg)
+![figure1](images/seq2seq-figure14.jpg)
+![figure2](images/seq2seq-figure15.jpg)
 
 # 4 Seq2Seq 的预测和训练
 ## 4.1 预测时流程
-![encoder-decoder](https://mmbiz.qpic.cn/mmbiz_png/QLDSy3Cx3YIn4IzP3UVrS6HfxiatGYDIPOMusFU6EUx6cX7phVgib9eY2M9DuVySCu86wFDTHnxn2bsqxE89zlwQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+![encoder-decoder](images/seq2seq-figure16.jpg)
 
 预测时，Encoder端没什么变化，在Decoder端，使用**自产自销的策略**：每一步的预测结果，都送给下一步作为输入，直至输出<end>就结束, 这种模式我们称之为 free running。这时的Decoder就是一个语言模型(LM)。由于这个语言模型是根据context vector来进行文本的生成的，因此这种类型的语言模型，被称为“条件语言模型”：Conditional LM。正因为如此，在训练过程中，我们可以使用一些预训练好的语言模型来对Decoder的参数进行初始化，从而可以加快迭代过程(具体见4.3节)。<br>
 
@@ -114,14 +114,14 @@ free running的模式不能在训练时使用吗？——当然是可以的！�
 ### 4.2.1 Teacher Forcing 
 在每一步的预测时，让老师来指导一下，即提示一下上一个词的正确答案，decoder就可以快速步入正轨，训练过程也可以更快收敛。因此大家把这种方法称为teacher forcing。所以，这种操作的目的就是为了使得训练过程更容易。<br>
 
-![Teacher Forcing](https://mmbiz.qpic.cn/mmbiz_png/QLDSy3Cx3YIn4IzP3UVrS6HfxiatGYDIPHmtoIwZkHBMewAZFTL7yJdiaFavtnxrzwzntYlYD9GKdvAecg0mnicPw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+![Teacher Forcing](images/seq2seq-figure17.jpg)
 
 **思考：Teacher Forcing 就没问题吗？？？**
 
 ### 4.2.2 Scheduled sampling
 更好的办法，更常用的办法，是老师只给适量的引导，学生也积极学习。即我们设置一个概率p，每一步，以概率p靠自己上一步的输入来预测，以概率1-p根据老师的提示来预测，这种方法称为 **计划采样(scheduled sampling)**。 <br>
 
-[scheduled sampling](https://mmbiz.qpic.cn/mmbiz_png/QLDSy3Cx3YIn4IzP3UVrS6HfxiatGYDIPT0qBiaIac80H1QdKsTvgaYkBLXblLiaYAIYJ0ibzMveOG30BVL4tico6WA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+[scheduled sampling](images/seq2seq-figure18.jpg)
 
 注意: 在seq2seq的训练过程中，decoder即使遇到了<end>标识也不会结束，因为训练的时候并不是一个生成的过程 ，我们需要等到“标准答案”都输入完才结束。<br>
 
@@ -145,7 +145,7 @@ $$J  =-\log (p (\hat{y_{1}}))-\log (p(\hat{y_{2}}))-\ldots-\log (p (\hat{y_{n}})
 # 6 Decoding 中的 Beam search
 ## 6.1 贪心decoding
 前面画的几个图展示的预测过程，其实就是最简单的decoding方式: **Greedy Decoding** ，即每一步，都预测出概率最大的那个词，然后输入给下一步。
-[Greedy Decoding](https://mmbiz.qpic.cn/mmbiz_png/QLDSy3Cx3YIn4IzP3UVrS6HfxiatGYDIPLWxdXdawPNHokEXMJe3QoL682W45Mib05fZcXZLyaaK1nDJSSVJnL3w/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+[Greedy Decoding](images/seq2seq-figure19.jpg)
 
 这种Greedy的方式，简单快速，但是既然叫“贪心”，肯定会有问题，那就是「每一步最优，不一定全局最优」，这种方式很可能“捡了芝麻，丢了西瓜”, 改进的方法，就是使用「Beam Search」方法：每一步，多选几个作为候选，最后综合考虑，选出最优的组合。
 
@@ -157,7 +157,7 @@ $$J  =-\log (p (\hat{y_{1}}))-\log (p(\hat{y_{2}}))-\ldots-\log (p (\hat{y_{n}})
 - 不断重复上述过程，直至结束，选择“序列得分”最大的那个序列作为最终结果。
 
 **图示** <br>
-[beam search](https://mmbiz.qpic.cn/mmbiz_png/QLDSy3Cx3YIn4IzP3UVrS6HfxiatGYDIPakUfYcfvNib2fwTYicOJMd1xOqx1XApD89wKTxw3ZE1j41ibLUe184ANg/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+[beam search](images/seq2seq-figure20.jpg)
 
 在每一步，我们都会去对所有的可能输出，计算一次score，假设beam size为k，词汇量为V，那么每一步就需要分出k×V个分支并逐一计算score。所以在图中我们可以看到除了第一步，后面每一步都是分出来2×3=6支。然后综合这k×V个score的结果，只选择其中最大的k个保留。
 
