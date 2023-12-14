@@ -51,7 +51,7 @@
 # 2 Seq2Seq 模型
 
 # 2.1 Seq2Seq 定义
-- ![wikipedia 定义]([images/seq2seq-figure6.jpg](https://zh.wikipedia.org/wiki/Seq2Seq%E6%A8%A1%E5%9E%8B))
+- [wikipedia 定义]([images/seq2seq-figure6.jpg](https://zh.wikipedia.org/wiki/Seq2Seq%E6%A8%A1%E5%9E%8B))
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Seq2seq（Sequence to sequence）模型，是将序列（Sequence）映射到序列的神经网络（neural network）机器学习模型。这个模型最初设计用于改进机器翻译技术，可容许机器通过此模型发现及学习将一种语言的语句（词语序列）映射到另一种语言的对应语句上。除此之外，Seq2Seq也能广泛地应用到各种不同的技术上，如聊天机器人、Inbox by Gmail等，但需要有配对好的文本集才能训练出对应的模型。<br>
 
