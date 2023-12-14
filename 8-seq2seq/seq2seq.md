@@ -231,7 +231,8 @@ $$score(y_{1}, \ldots, y_{t})=\sum_{i=1}^{t} \log P(y_{i} \mid y_{1}, y_{2}, \ld
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在search结束之后，我们需要对已完成的N个序列做一个抉择，挑选出最好的那个，那不就是通过前面定义的score函数来比较吗？确实可以，但是如果直接使用score来挑选的话，会导致那些很短的句子更容易被选出。因为score函数的每一项都是负的，序列越长，score往往就越小。因此我们可以使用长度来对score函数进行细微的调整：对每个序列的得分，除以序列的长度。根据调整后的结果来选择best one。<br>
 
-# 7 NLP 中常见任务
+# 7 NLP 从机器学习到深度学习
+## 7.1 NLP 中常见任务
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NLP（自然语言处理）领域有许多常见的任务，涵盖了对自然语言进行理解和生成的各个方面。以下是一些常见的NLP任务：<br>
 1. 文本分类（Text Classification）：将文本分为不同的类别或标签，如情感分类、主题分类等。
 2. 命名实体识别（Named Entity Recognition，NER）：从文本中识别和提取命名实体，如人名、地名、组织机构等。
@@ -249,7 +250,7 @@ $$score(y_{1}, \ldots, y_{t})=\sum_{i=1}^{t} \log P(y_{i} \mid y_{1}, y_{2}, \ld
 14. 语言生成（Language Generation）：生成自然语言文本，如机器翻译、文本摘要、对话生成等。
 这些任务代表了NLP领域中的一些核心问题和应用，研究人员和从业者致力于开发和改进相应的算法和技术，以提高自然语言处理系统的性能和效果。
 
-## 7.2 NMT 和 SMT
+## 7.2 SMT 到 NMT
 
 
 # 8 参考文献
