@@ -208,3 +208,4 @@ NLP（自然语言处理）领域有许多常见的任务，涵盖了对自然�
 [参考文献2](https://arxiv.org/pdf/1409.3215.pdf)  <br>
 [参考文献3](https://mp.weixin.qq.com/s/dXqAdb524o3lBZcQiXQacw)  <br>
 [Luong Attention](https://arxiv.org/abs/1508.04025)  <br>
+https://zhuanlan.zhihu.com/p/51383402
