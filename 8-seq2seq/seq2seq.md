@@ -193,7 +193,7 @@ $$J  =-\log (p (\hat{y_{1}}))-\log (p(\hat{y_{2}}))-\ldots-\log (p (\hat{y_{n}})
 ## 6.1 贪心decoding
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;前面画的几个图展示的预测过程，其实是最简单的decoding方式: **Greedy Decoding** ，即每一步，都预测出概率最大的那个词，然后输入给下一步, 如下图所示。<br>
 
-[Greedy Decoding](images/seq2seq-figure19.jpg)
+![Greedy Decoding](images/seq2seq-figure19.jpg)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这种Greedy的方式，简单快速，但是既然叫“贪心”，肯定会有问题，那就是**每一步最优，不一定全局最优**，这种方式很可能“捡了芝麻，丢了西瓜” 。<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;改进的方法，就是使用 **Beam Search**方法：每一步，多选几个作为候选，最后综合考虑，选出最优的组合。<br>
@@ -207,7 +207,7 @@ $$J  =-\log (p (\hat{y_{1}}))-\log (p(\hat{y_{2}}))-\ldots-\log (p (\hat{y_{n}})
 
 **Beam search 原理图** <br>
 
-[beam search](images/seq2seq-figure20.jpg)
+![beam search](images/seq2seq-figure20.jpg)
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在每一步，我们都会去对所有的可能输出，计算一次score，假设beam size为k，词汇量为V，那么每一步就需要分出k×V个分支并逐一计算score。所以在图中我们可以看到除了第一步，后面每一步都是分出来2×3=6支。然后综合这k×V个score的结果，只选择其中最大的k个保留。<br>
 
