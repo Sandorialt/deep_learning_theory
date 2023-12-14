@@ -133,7 +133,7 @@
 
 # 4 Seq2Seq 的工作流程
 ## 4.1 预测时流程
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;预测时(Inference/predict)，Encoder端没什么变化，在Decoder端，使用**自产自销的策略**：每一步的预测结果，都送给下一步作为输入，直至输出<end>就结束, 这种模式我们称之为**free running** 。这时的Decoder就是一个**语言模型(LM)**。由于这个语言模型是根据context vector来进行文本的生成的，因此这种类型的语言模型，被称为**条件语言模型(Conditional LM)**。
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;预测时(Inference/predict)，Encoder端没什么变化，在Decoder端，使用**自产自销的策略**：每一步的预测结果，都送给下一步作为输入，直至输出<end>就结束, 这种模式我们称之为**free running** 。这时的Decoder就是一个**语言模型(LM)**。由于这个语言模型是根据context vector来进行文本的生成的，因此这种类型的语言模型，被称为**条件语言模型(Conditional LM)**。<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;条件语言模型可以使用一些预训练好的语言模型来对Decoder的参数进行初始化，从而可以加快迭代过程(具体见4.3节)。<br>
 
 *(语言模型（Language Modeling）：对给定的上下文进行下一个单词或字符的预测，用于自动补全、机器翻译等任务)*
