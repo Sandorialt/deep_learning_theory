@@ -4,7 +4,7 @@
 # 2 pytorch 简介
 ## 2.1 认识pytorch
 - [nvidia- pytorch](https://www.nvidia.cn/glossary/data-science/pytorch/)
-- 
+
 ## 2.2 pytorch 软件栈
 ![figure3](images/pytorch-figure3.jpg)
 
