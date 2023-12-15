@@ -1,9 +1,3 @@
-# 0 深度学习模型认识
-- [深度学习预训练模型下载](https://github.com/onnx/models)
-- [深度学习模型可视化](https://netron.app/)
-
-**==============  深度学习常用算子 ==============**
-
 # 1 Convolution
 ## 1.1 Conv2D
 - 示意图<br>
