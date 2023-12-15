@@ -9,7 +9,7 @@
 
 - [安装指定版本](https://pytorch.org/get-started/previous-versions/)
 
-# 3 nvidia 相关软件库
+# 4 nvidia 相关软件库
 ## 3.1 显卡驱动
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;显卡驱动的作用就是用来驱动显卡的，这是电脑硬件中所对应的一个软件。通过添加驱动程序计算机中的硬件就能正常的工作，当然不同的硬件使用的驱动程序也不一样。显卡对应的就是显卡驱动。<br>
 
