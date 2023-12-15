@@ -2,11 +2,11 @@
 [![pytorch Official website](images/pytorch-figure2.jpg)](https://pytorch.org/)
   
 # 2 pytorch 简介
-## 2.1 pytorch 软件栈
-![figure3](images/pytorch-figure3.jpg)
-
-## 2.2 认识pytorch
+## 2.1 认识pytorch
 - [nvidia- pytorch](https://www.nvidia.cn/glossary/data-science/pytorch/)
+- 
+## 2.2 pytorch 软件栈
+![figure3](images/pytorch-figure3.jpg)
 
 # 3 pytorch install
 - [安装最新版本](https://pytorch.org/)
