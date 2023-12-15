@@ -1,9 +1,9 @@
 # 1 pytorch 官网
-- [![pytorch Official website](images/pytorch-figure2.jpg)](https://pytorch.org/)
+[![pytorch Official website](images/pytorch-figure2.jpg)](https://pytorch.org/)
   
 # 2 pytorch 简介
 ## 2.1 pytorch 软件栈
-- ![figure3](images/pytorch-figure3.jpg)
+![figure3](images/pytorch-figure3.jpg)
 
 ## 2.2 认识pytorch
 - [nvidia- pytorch](https://www.nvidia.cn/glossary/data-science/pytorch/)
@@ -31,7 +31,7 @@
 
 # 5 GPU 
 ## 5.1 GPU 加速原理
-- ![H100 SM](images/pytorch-figure1.jpg)
+![H100 SM](images/pytorch-figure1.jpg)
 
 ## 5.2 最先进的GPU
 - [H100](https://resources.nvidia.com/en-us-tensor-core)
