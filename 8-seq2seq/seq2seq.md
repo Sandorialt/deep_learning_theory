@@ -250,8 +250,41 @@ $$score(y_{1}, \ldots, y_{t})=\sum_{i=1}^{t} \log P(y_{i} \mid y_{1}, y_{2}, \ld
 14. 语言生成（Language Generation）：生成自然语言文本，如机器翻译、文本摘要、对话生成等。
 这些任务代表了NLP领域中的一些核心问题和应用，研究人员和从业者致力于开发和改进相应的算法和技术，以提高自然语言处理系统的性能和效果。
 
-## 7.2 SMT 到 NMT
+## 7.2 机器翻译的发展历程
+- 早期的(1950s)机器翻译的思路十分简单，通过设置大量的翻译规则，构建一个大型的双语对照表，来将源语言翻译成目标语言。这种做法过程简单，效果也一般。<br>
+- 后来（1990s-2010s）我们有了更为先进复杂的机器翻译技术: **统计机器翻译(Statistical Machine Translation, SMT).** <br>
+- 再后来 在深度学习时代，我们有了更好的方法：**神经机器翻译(Neural Machine Translation，NMT).**
 
+## 7.3 SMT 方法简介
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SMT的主要思想就是从大量的数据中学习一个概率模型 $P{y | x}$ ，其中x是源语言（source language），y是目标语言（target language），即x翻译成y的概率有多大。在翻译时，我们只需要通过求 $$argmax_{y}P{y | x}$$ 就行了，即找到概率最大的那个y，就是x的最佳翻译了。<br>
+
+由贝叶斯公式：<br>
+$$P(y \mid x)=\frac{P(y) P(x \mid y)}{P(x)}$$
+
+我们可以将目标转变为：<br>
+$$argmax_{y} P(y \mid x)= argmax_{y} \frac{P(y) P(x \mid y)}{P(x)}=argmax_{y} P(y) P(x \mid y)$$
+
+$P(y)$ 就是求y这个句子的概率，这就是一个**语言模型(LM)**。而后者 $P(x \mid y)$ 则被称为**翻译模型(TM)**。LM可以通过目标语言的语料进行训练，TM则需要通过**平行语料(parallel corpus，即源和目标两种语言的互相对照的语料)进行训练。<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;翻译模型通过大量的平行语料，学习到的主要是两种语言之间的对应关系，而语言模型则侧重于学习一种语言内部的语法结构，不同词汇是怎么流畅地组合成句子的。原本的公式只有一个翻译模型，会导致我们训练出来的模型在翻译结果的语言通畅性方面很差。因此，我们经过公式变换，将一个TM任务转化成TM+LM两种任务，可以模型学习的结果更好。<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对于TM的学习，一般我们会进一步进行分解，考虑两种语言之间的各种对齐方式（alignment），即在原有的翻译模型上，引入一个隐变量a，得到 $P(x, a \mid y)$ ，可以理解为给定句子y，按照对齐方式a翻译成x的概率。具体什么是对齐方式alignment呢？它的意思就是在两种语言A和B之间，A的词是跟B的词怎么对应的。很明显，这种对应关系可以是一对一、一对多、多对一、多对多的。<br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在学习了LM和TM这两个模型之后，是不是就完事儿了呢？当然没有，别忘了公式里还有一个argmax，我们要找出最佳的翻译是什么。根据LM和TM寻找最佳y的过程，就称为“decoding”，即解码。
+
+![beam search](https://mmbiz.qpic.cn/mmbiz_png/QLDSy3Cx3YIn4IzP3UVrS6HfxiatGYDIP9y66ibIsR2YE9ibjFMfLDHtX28TYw1fF5xiaC4tcibOib62ndmSicfmziby3A/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一个最直接的方法就是，遍历所有可能的y，选择概率最大的那个，当然就是最佳的翻译。明显，这种方式带来的开销是我们无法忍受的。如果学习过CRF或者HMM，我们应该知道对于这种解码的过程，我们一般使用动态规划、启发式搜索的方法来处理。在SMT中具体怎么解码，我们这里也暂时不做深入的研究。
+
+**通过以上过程我们发现其中涉及的原理、推导过程非常复杂，数据处理也异常繁琐** <br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;统计机器翻译——SMT，在深度学习时代之前，风光无限，一直是机器翻译的巅峰技术。但是，SMT的门槛也是很高的，那些表现优异的SMT模型，通常都是极其复杂的，里面涉及到大量的特征工程，海量的专家知识，无数的资源积累，繁多的功能模块，还需要庞大的人力去维护。这也是我根本不想去深入了解这个技术的原因。<br>
+
+## 7.4 NMT
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;深度学习的“可恨之处”在于，它把那些需要大量人力的工作都吃掉了，导致行业专家和搬砖工人门纷纷下岗。NMT就是这样，企图就是用一个简洁的神经网络结构，就把机器翻译这么大的一个工程给包下来。我画了一个形象生动的图来示意SMT和NMT的区别：<br>
+![beam search](https://mmbiz.qpic.cn/mmbiz_png/QLDSy3Cx3YIn4IzP3UVrS6HfxiatGYDIPpHIrxBonogUezNd326socPXmYbx5CoyINBKnWzod4BWaQK0m21X9pw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;之后，按照我们之前encoder - Decoder 架构 设计训练模型即可. <br>
 
 # 8 参考文献
 - [参考文献1](https://spaces.ac.cn/archives/5861) <br>
