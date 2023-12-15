@@ -4,7 +4,10 @@
 # 2 pytorch 官网
 - [pytorch Official website](https://pytorch.org/)
 
-# 
+# 3 pytorch install
+- [安装最新版本](https://pytorch.org/)
+
+- [安装指定版本](https://pytorch.org/get-started/previous-versions/)
 
 # 3 nvidia 相关软件库
 ## 3.1 显卡驱动
@@ -18,5 +21,7 @@
 - [cuda download](https://developer.nvidia.com/cuda-toolkit-archive)
 
 ## 3.3 cudnn
-cuDNN（CUDA Deep Neural Network library）：是NVIDIA打造的针对深度神经网络的加速库，是一个用于深层神经网络的GPU加速库。.如果你要用GPU训练模型，cuDNN不是必须的，但是一般会采用这个加速库。总结来说，CPU适合串行计算，擅长逻辑控制。GPU擅长并行高强度并行计算，适用于AI算法的训练学习！
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cuDNN（CUDA Deep Neural Network library）：是NVIDIA打造的针对深度神经网络的加速库，是一个用于深层神经网络的GPU加速库。.如果你要用GPU训练模型，cuDNN不是必须的，但是一般会采用这个加速库。总结来说，CPU适合串行计算，擅长逻辑控制。GPU擅长并行高强度并行计算，适用于AI算法的训练学习！<br>
+
+- [cudnn download](https://developer.nvidia.com/rdp/cudnn-archive)
 
