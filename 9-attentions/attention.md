@@ -33,3 +33,4 @@ Google 在 2023 年发表的一篇 《GQA: Training Generalized Multi-Query Tran
 
 # 9 参考链接
 - [参考链接1](https://zhuanlan.zhihu.com/p/647130255)
+- [参考链接](https://towardsdatascience.com/attn-illustrated-attention-5ec4ad276ee3)
