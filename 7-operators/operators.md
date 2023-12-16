@@ -5,6 +5,7 @@
 
 - [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html#torch.nn.Conv2d)
 ```python
+import torch
 import torch.nn as nn
 # With square kernels and equal stride
 m = nn.Conv2d(16, 33, 3, stride=2)
