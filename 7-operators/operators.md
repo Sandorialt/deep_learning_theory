@@ -50,6 +50,7 @@ output.size()
 
 - [pytorch 实现](https://pytorch.org/docs/stable/generated/torch.nn.Linear.html#torch.nn.Linear)
 ```python
+import torch
 import torch.nn as nn
 m = nn.Linear(20, 30)
 input = torch.randn(128, 20)
