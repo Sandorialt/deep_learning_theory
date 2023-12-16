@@ -27,7 +27,7 @@
 ## 3.2 解码器：
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;解码器同样由N = 6 个完全相同的层堆叠而成。 除了每个编码器层中的两个子层之外，解码器还插入第三个子层，该层对编码器堆栈的输出执行multi-head attention。 与编码器类似，我们在每个子层再采用残差连接，然后进行层标准化。 我们还修改解码器堆栈中的self-attention子层，以防止位置关注到后面的位置。 这种掩码结合将输出嵌入偏移一个位置，确保对位置的预测 i 只能依赖小于i 的已知输出。<br>
 
-# 4 缩放版本的点积注意力(Scaled Dot-Product Attention)
+# 4 Scaled Dot-Product Attention（缩放版本的点积注意力）
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Attention可以描述为将query和一组 **key-value对** 映射到输出(output)，其中query、key、value和 output都是向量(vector)。 输出为value的加权和，其中分配给每个value的权重通过query与相应key的兼容函数来计算。
 
 ## 4.1 模型结构图
@@ -66,19 +66,41 @@ $$Attention(Q, K, V)=softmax(\frac{Q K^{T}}{\sqrt{d_{k}}}) V $$
 ![figure9](images/attention-figure9.jpg)
 
 ### 4.2.4 写成矩阵的形式
-- 矩阵化 Q K V 的获取过程：
+- 矩阵化 Q K V 的获取过程：<br>
 ![figure10](images/attention-figure10.jpg)
 
-- attention score 的获取写成矩阵形式
+- attention score 的获取写成矩阵形式 <br>
 ![figure11](images/attention-figure11.jpg)
 
 **得到的矩阵我们称之为 Attenion Matrix.**
 
-- Value 加权平均过程 写成矩阵形式
+- Value 加权平均过程 写成矩阵形式 <br>
 ![figure12](images/attention-figure12.jpg)
 
-- 最后，我们将整个过程表达为矩阵形式
+- 最后，我们将整个过程表达为矩阵形式 <br>
 ![figure13](images/attention-figure13.jpg)
+
+## 4.4 为什么要进行缩放
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当 $d_{k}$ 的值比较小的时候，两种点击机制(additive 和 Dot-Product)的性能相差相近，当 $d_{k}$ 比较大时，additive attention 比不带scale 的点积attention性能好。 我们怀疑，对于很大的 $d_{k}$ 值，点积大幅度增长，将softmax函数推向具有极小梯度的区域。 为了抵消这种影响，我们缩小点积 $\frac{1}{\sqrt{d_{k}}}$ 倍。<br>
+
+# 5 Multi-Head self Attention
+## 5.1 原理简介
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;论文提出将query、key和value分别用不同的、学到的线性映射 h倍 到 $d_{k}$ 、 $d_{k}$ 和 $d_{v}$ 维效果更好，而不是用 $d_model$ 维的query、key和value执行单个attention函数。 基于每个映射版本的query、key和value，我们并行执行attention函数，产生 $d_v$ 维输出值。 将它们连接并再次映射，产生最终值，如下图所示。<br>
+
+![figure14](images/attention-figure14.jpg)
+
+## 5.2 公式表达
+
+$$MultiHead(Q, K, V) = Concat(head_{1}, \ldots, head_{h}) W^{O} $$
+$$where head_{i} = Attention(Q W_{i}^{Q}, K W_{i}^{K}, V W_{i}^{V})$$
+
+其中： $W_{i}^{Q} \in \mathbb{R}^{d_{model} \times d_{k}}$
+
+**思考：为什么多头效果更好呢？？？**
+
+## 5.3 底层原理
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Multi-head attention允许模型的不同表示子空间联合**关注不同位置**的信息。 如果只有一个attention head，它的平均值会削弱这个信息。<br>
+
 
 
 # 1 MHA(multi head attention)
