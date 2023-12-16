@@ -110,16 +110,22 @@ $$where head_{i} = Attention(Q W_{i}^{Q}, K W_{i}^{K}, V W_{i}^{V})$$
 写成矩阵形式参考Dot-Product形式。<br>
 
 # 6 实际工程上的 Multi-Head Attention 详解
+- 模型下载： <br>
+[encoder-shaped-model](images/encoder_shaped.onnx)
 
+- 用netron打开查看: <br>
+[netron](https://netron.app/)
 
-# 6 Cross Multi-Head Attention
+# 7 Cross Multi-Head Attention
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;首先，Self- Attention与传统的Attention机制非常的不同：传统的Attention是基于source端和target端的隐变量（hidden state）计算Attention的，得到的结果是源端（source端）的每个词与目标端（target端）每个词之间的依赖关系。<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;其次，Self-Attention首先分别在source端和target端进行自身的attention，仅与source input或者target input自身相关的Self -Attention，以捕捉source端或target端自身的词与词之间的依赖关系；然后再把source端的得到的self -Attention加入到target端得到的Attention中，称作为**Cross-Attention**，以捕捉source端和target端词与词之间的依赖关系。如下图的架构：<br>
 
 ![figure17](images/attention-figure17.jpg)
 
+# 8 Mask Multi-Head Attention
 
-# 7 MQA（Multi Query Attention）
+
+# 9 MQA（Multi Query Attention）
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MQA（Multi Query Attention）最早是出现在2019年谷歌的一篇论文 《Fast Transformer Decoding: One Write-Head is All You Need》，之所以没有被关注到，是因为文本生成类任务还没这么火热，解码序列长度也没有现阶段大模型的要求那么高。<br>
 
 - [MQA 论文](https://arxiv.org/abs/1911.02150)
@@ -128,18 +134,18 @@ $$where head_{i} = Attention(Q W_{i}^{Q}, K W_{i}^{K}, V W_{i}^{V})$$
 
 - [MQA update](https://arxiv.org/pdf/2006.16362.pdf)
 
-# 8 GQA（Grouped Query Attention）
+# 10 GQA（Grouped Query Attention）
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Google 在 2023 年发表的一篇 《GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints》的论文，整体论文写的清晰易读。<br>
 
 - [GQA 论文](https://arxiv.org/pdf/2305.13245.pdf)
 
-# 9 加速利器：KV Cache
+# 11 加速利器：KV Cache
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;假设 K 和 V 能直接存在缓存中，模型规模小还好，一旦模型规模很大长度很长时，KV 根本就存不进缓存。<br>
 
-# 10 加速利器：FlashAttention: 
+# 12 加速利器：FlashAttention: 
 - [FlashAttention 论文链接](https://arxiv.org/abs/2205.14135)
 
-# 11 其它改进方案
+# 13 其它改进方案
 - FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning
 [FlashAttention2 论文链接](https://arxiv.org/pdf/2307.08691.pdf)
 
@@ -147,7 +153,7 @@ $$where head_{i} = Attention(Q W_{i}^{Q}, K W_{i}^{K}, V W_{i}^{V})$$
 [参考链接](https://blog.vllm.ai/2023/06/20/vllm.html)
 [page attention 论文链接](https://arxiv.org/abs/2309.06180)
 
-# 12 参考链接
+# 14 参考链接
 - [参考链接](https://towardsdatascience.com/attn-illustrated-attention-5ec4ad276ee3)
-- [书籍+ 代码](https://zh-v2.d2l.ai/chapter_attention-mechanisms/attention-scoring-functions.html)
+- [书籍 + 代码](https://zh-v2.d2l.ai/chapter_attention-mechanisms/attention-scoring-functions.html)
 - [read paper](https://readpaper.com/paper/2963403868)
