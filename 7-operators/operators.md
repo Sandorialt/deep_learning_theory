@@ -89,7 +89,7 @@ res.size()
 
 ##  3.1 BatchNorm2d
 **BN示意图** <br>
-![figure2](images/op-figure2.jpg)
+![figure3](images/op-figure3.jpg)
 
 **原理:** <br>
 - batchNorm是在batch上，对NHW做归一化;即是将同一个batch中的所有样本的同一层特征图抽出来一起求mean和variance。<br>
